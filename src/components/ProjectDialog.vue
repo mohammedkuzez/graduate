@@ -1,0 +1,133 @@
+<script>
+import { Field, Form, defineRule } from 'vee-validate'
+import { required, email, min } from '@vee-validate/rules'
+import { useDataStore } from '@/store/post'
+import { mapState, mapActions } from 'pinia';
+
+
+export default {
+  props: {
+    item: Object,
+  },
+  data() {
+    return {
+      visible: true,
+      Project: {
+        name: '',
+        description: '',
+        state: false,
+        date: '',
+      },
+      ActiveOrINAtive: 'Inactive'
+    };
+  },
+  methods: {
+    save(values) {
+      // const index = this.ProjectManag.findIndex(
+      //   (originalItem) => originalItem.name === this.ProjectManag.name
+      // )
+      //   this.ProjectManag[index] = { ...this.AddItem }
+    // Example: save into your store or local object
+    this.Project = { ...values, state: this.Project.state }
+      console.log(this.Project);
+      this.ProjectManag.push(this.Project);
+      console.log(this.ProjectManag);
+      var currentDate = new Date();
+          console.log(currentDate);
+        this.$emit('close')
+      },
+      switchactive() {
+        this.Project.state = !this.Project.state
+        this.ActiveOrINAtive = this.Project.state? 'Active' : 'Inactive'
+      }
+  },
+  computed: {
+    ...mapState(useDataStore, ['ProjectManag']),
+  },
+  components: {
+    Field,
+    Form,
+
+  }
+};
+
+
+defineRule('required', required)
+defineRule('email', email)
+defineRule('ProjectName', function(value) {
+  if (value.length < 3) return 'Must be at least 3 characters'
+  if (value.length > 50 ) return 'Must be less then 50 characters'
+  return true
+})
+defineRule('ProjectDescription', function(value) {
+  if (value.length < 10) return 'Must be at least 10 characters'
+  if (value.length > 500 ) return 'Must be less then 500 characters'
+  return true
+})
+</script>
+
+
+
+
+<template>
+  <v-dialog v-model="visible" max-width="600" persistent>
+    <v-card>
+      <Form @submit="save" v-slot="{ values }">
+      <v-card-title>{{ $t('projectManagement.addingProject') }}</v-card-title>
+
+      <v-card-text>
+        <div class="text-subtitle-1 text-medium-emphasis">{{ $t('projectManagement.projectName') }}</div>
+        <Field name="name" :rules="'required|ProjectName'" v-slot="{ field, errors }">
+        <v-text-field
+        class="pb-3"
+        :label="$t('projectManagement.projectName')" 
+        v-bind="field"
+        density="prominent"
+        :placeholder="$t('projectManagement.projectName')"
+        prepend-inner-icon="mdi-account-outline"
+        variant="outlined"
+        :error="errors.length > 0"
+        :error-messages="errors"/>
+        </Field>
+        <div class="text-subtitle-1 text-medium-emphasis">{{ $t('projectManagement.description') }}</div>
+        <Field name="description" :rules="'required|ProjectDescription'" v-slot="{ field, errors }">
+        <v-text-field
+        class="pb-3"
+        :label="$t('projectManagement.description')"
+        v-bind="field"
+        density="prominent"
+        :placeholder="$t('projectManagement.description')"
+        prepend-inner-icon="mdi-account-outline"
+        variant="outlined"
+        :error="errors.length > 0"
+        :error-messages="errors"/>
+        </Field>
+        <field name="state" v-slot="{ field }">
+          <v-switch color="secondary" v-bind="field" :label="field.value ? 'Active' : 'Inactive'"></v-switch>
+        </field>
+        <div class="text-subtitle-1 text-medium-emphasis">{{ $t('projectManagement.date') }}</div>
+        <Field name="date" :rules="'required'" v-slot="{ field, errors }">
+        <v-text-field
+        :label="$t('projectManagement.date')"
+        type="Date"
+        v-bind="field"
+        density="prominent"
+        :placeholder="$t('projectManagement.date')"
+        prepend-inner-icon="mdi-account-outline"
+        variant="outlined"
+        :error="errors.length > 0"
+        :error-messages="errors"/>
+        </Field>
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="error" text @click="$emit('close')">Cancel</v-btn>
+        <v-btn color="secondary" text type="submit">Save</v-btn>
+      </v-card-actions>
+      </Form>
+    </v-card>
+  </v-dialog>
+</template>
+
+
