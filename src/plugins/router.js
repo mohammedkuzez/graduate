@@ -10,6 +10,7 @@ import TaskStatusManagement from '@/components/TaskStatusManagement.vue'
 import Dashboard from '@/components/Dashboard.vue'
 import Invitation from '@/components/Invitation.vue'
 import NotFoundView from '@/components/NotFoundView.vue'
+import ProjectTasks from '@/components/ProjectTasks.vue'
 
 
 
@@ -33,6 +34,7 @@ const routes = [
             { path: 'Task_Status_Management', name: 'Task Status Management', component: TaskStatusManagement },
             { path: 'Dashboard',name: 'Dashboard',component: Dashboard },
             { path: 'Invitation',name: 'Invitation',component: Invitation },
+            { path: ':ProjectId',name: 'Project Tasks',component: ProjectTasks },
         ]
     },
     {

@@ -6,9 +6,7 @@ import { mapState, mapActions } from 'pinia';
 
 
 export default {
-  props: {
-    item: Object,
-  },
+  props: ['ProjectName', 'ProjectDescription', 'ProjectDate'],
   data() {
     return {
       visible: true,
@@ -16,30 +14,36 @@ export default {
         name: '',
         description: '',
         state: false,
-        date: '',
+        dueDate: '',
       },
+      currentDate: new Date().toISOString().split('T')[0],
       ActiveOrINAtive: 'Inactive'
     };
   },
   methods: {
     save(values) {
       // const index = this.ProjectManag.findIndex(
-      //   (originalItem) => originalItem.name === this.ProjectManag.name
-      // )
-      //   this.ProjectManag[index] = { ...this.AddItem }
-    // Example: save into your store or local object
-    this.Project = { ...values, state: this.Project.state }
-      console.log(this.Project);
-      this.ProjectManag.push(this.Project);
-      console.log(this.ProjectManag);
-      var currentDate = new Date();
-          console.log(currentDate);
-        this.$emit('close')
+        //   (originalItem) => originalItem.name === this.ProjectManag.name
+        // )
+        //   this.ProjectManag[index] = { ...this.AddItem }
+        // Example: save into your store or local object
+        this.Project = { ...values, state: this.Project.state }
+        
+        if(this.ProjectName){
+          const store = useDataStore()
+          store.UpateProjectByName(this.ProjectName,this.Project.name,this.Project.description,this.Project.dueDate)
+          this.$emit('close')
+
+        }
+        else {
+          this.ProjectManag.push(this.Project);
+          this.$emit('close')
+        }
       },
       switchactive() {
         this.Project.state = !this.Project.state
         this.ActiveOrINAtive = this.Project.state? 'Active' : 'Inactive'
-      }
+      },
   },
   computed: {
     ...mapState(useDataStore, ['ProjectManag']),
@@ -64,6 +68,12 @@ defineRule('ProjectDescription', function(value) {
   if (value.length > 500 ) return 'Must be less then 500 characters'
   return true
 })
+defineRule('FutureDate', function(value, [today]) {
+  const selectedDate = new Date(value)
+  const todayDate = new Date(today);
+  if (selectedDate < todayDate) return `The Date Must be today or in Future`
+  return true
+})
 </script>
 
 
@@ -72,47 +82,44 @@ defineRule('ProjectDescription', function(value) {
 <template>
   <v-dialog v-model="visible" max-width="600" persistent>
     <v-card>
-      <Form @submit="save" v-slot="{ values }">
+      <Form @submit="save">
       <v-card-title>{{ $t('projectManagement.addingProject') }}</v-card-title>
 
       <v-card-text>
-        <div class="text-subtitle-1 text-medium-emphasis">{{ $t('projectManagement.projectName') }}</div>
-        <Field name="name" :rules="'required|ProjectName'" v-slot="{ field, errors }">
+        <Field name="name" :rules="'required|ProjectName'" v-slot="{ field, errors }" :value="ProjectName">
         <v-text-field
+        :hint="$t('hint.PlsEnterProjectName')" 
         class="pb-3"
         :label="$t('projectManagement.projectName')" 
         v-bind="field"
         density="prominent"
-        :placeholder="$t('projectManagement.projectName')"
         prepend-inner-icon="mdi-account-outline"
         variant="outlined"
         :error="errors.length > 0"
         :error-messages="errors"/>
         </Field>
-        <div class="text-subtitle-1 text-medium-emphasis">{{ $t('projectManagement.description') }}</div>
-        <Field name="description" :rules="'required|ProjectDescription'" v-slot="{ field, errors }">
+        <Field name="description" :rules="'required|ProjectDescription'" v-slot="{ field, errors }" :value="ProjectDescription">
         <v-text-field
+        :hint="$t('hint.PlsEnterProjectdescription')"
         class="pb-3"
         :label="$t('projectManagement.description')"
         v-bind="field"
         density="prominent"
-        :placeholder="$t('projectManagement.description')"
         prepend-inner-icon="mdi-account-outline"
         variant="outlined"
         :error="errors.length > 0"
         :error-messages="errors"/>
         </Field>
-        <field name="state" v-slot="{ field }">
-          <v-switch color="secondary" v-bind="field" :label="field.value ? 'Active' : 'Inactive'"></v-switch>
-        </field>
-        <div class="text-subtitle-1 text-medium-emphasis">{{ $t('projectManagement.date') }}</div>
-        <Field name="date" :rules="'required'" v-slot="{ field, errors }">
+        <Field name="state" v-slot="{ field }">
+          <v-switch color="secondary" v-model="field.value" @update:model-value="field.onChange" :label="field.value ? $t('AddAndUpateProject.active') : $t('AddAndUpateProject.inactive')"></v-switch>
+        </Field>
+        <Field name="dueDate" :rules="`required|FutureDate:${this.currentDate}`" v-slot="{ field, errors }" :value="ProjectDate">
         <v-text-field
+        :hint="$t('hint.PlsEnterProjectdate')"
         :label="$t('projectManagement.date')"
         type="Date"
         v-bind="field"
         density="prominent"
-        :placeholder="$t('projectManagement.date')"
         prepend-inner-icon="mdi-account-outline"
         variant="outlined"
         :error="errors.length > 0"

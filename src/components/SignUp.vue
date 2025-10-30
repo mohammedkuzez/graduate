@@ -82,12 +82,13 @@ defineRule('confirmPassword', (value, params) => {
       rounded="lg"
     >
     <Form @submit="onSubmit" v-slot="{ values }">
-      <div class="text-subtitle-1 text-medium-emphasis">{{ $t('signUp.fullName') }}</div>
-        <Field name="Name" :rules="'required|minName'" v-slot="{ field, errors }">
+        <Field class="mt-2" name="Name" :rules="'required|minName'" v-slot="{ field, errors }">
       <v-text-field
+      class="mt-2"
+        :label="$t('signUp.fullName')"
+        :hint="$t('hint.PlsEnterUName')"
         v-bind="field"
         density="compact"
-        :placeholder="$t('signUp.fullName')"
         prepend-inner-icon="mdi-account-outline"
         variant="outlined"
         :error="errors.length > 0"
@@ -95,26 +96,29 @@ defineRule('confirmPassword', (value, params) => {
       ></v-text-field>
         </Field>
 
-      <div class="text-subtitle-1 text-medium-emphasis">{{ $t('signUp.account') }}</div>
-        <Field name="email" :rules="'required|email|uniqueEmail'" v-slot="{ field, errors }">
+        <Field class="mt-2" name="email" :rules="'required|email|uniqueEmail'" v-slot="{ field, errors }">
       <v-text-field
+      class="mt-2"
+        :label="$t('signUp.emailAddress')"
+        :hint="$t('hint.PlsEnterUEmail')"
+        hint="Like: Moazkuzez5@gmail.com"
         v-bind="field"
         density="compact"
-        :placeholder="$t('signUp.emailAddress')"
         prepend-inner-icon="mdi-email-outline"
         variant="outlined"
         :error="errors.length > 0"
         :error-messages="errors"
       ></v-text-field>
         </Field>
-      <div class="text-subtitle-1 text-medium-emphasis">{{ $t('signUp.password') }}</div>
-      <Field name="password" :rules="'required|strongPassword'" v-slot="{ field, errors }">
+      <Field class="mt-2" name="password" :rules="'required|strongPassword'" v-slot="{ field, errors }">
       <v-text-field
+      class="mt-2"
+       :label="$t('signUp.password')"
+       :hint="$t('hint.PlsEnterUPassword')"
         v-bind="field"
         :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
         :type="showPassword ? 'text' : 'password'"
         density="compact"
-        :placeholder="$t('signUp.password')"
         prepend-inner-icon="mdi-lock-outline"
         variant="outlined"
         @click:append-inner="togglePassword"
@@ -122,14 +126,15 @@ defineRule('confirmPassword', (value, params) => {
         :error-messages="errors"
       ></v-text-field>
         </Field>
-      <div class="text-subtitle-1 text-medium-emphasis">{{ $t('signUp.confirmPassword') }}</div>
-      <Field name="Confirm password" :rules="{ confirmPassword: { password: values.password } }" v-slot="{ field, errors }">
+      <Field class="mt-2" name="Confirm password" :rules="{ confirmPassword: { password: values.password } }" v-slot="{ field, errors }">
       <v-text-field
+      class="mt-2"
+       :label="$t('signUp.confirmPassword')"
+       :hint="$t('hint.PlsEnterUConfrimPassword')"
         v-bind="field"
         :append-inner-icon="ConfirmPassword ? 'mdi-eye-off' : 'mdi-eye'"
         :type="ConfirmPassword ? 'text' : 'password'"
         density="compact"
-        :placeholder="$t('signUp.confirmPassword')"
         prepend-inner-icon="mdi-lock-outline"
         variant="outlined"
         @click:append-inner="ConfirmtogglePassword"
@@ -139,7 +144,7 @@ defineRule('confirmPassword', (value, params) => {
         </Field>
 
       <v-btn
-        class="mb-8"
+        class="mb-8 mt-2"
         color="blue"
         size="large"
         variant="tonal"

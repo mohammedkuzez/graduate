@@ -83,7 +83,7 @@ export default {
 
             <v-list nav>
                 <v-list-item v-for="(item, i) in items" :key="i" :to="item.link" color="primary">
-                    <template v-slot:prepend>
+                    <template v-slot:675>
                         <v-icon :icon="item.icon"></v-icon>
                     </template>
 

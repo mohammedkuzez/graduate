@@ -23,11 +23,27 @@ export default {
     },
     projectManagement: {
         yourProjects: 'Your Projects',
-        addProject: '+ Add Project',
+        addProject: '+ New Project',
         addingProject: 'Adding Project',
         projectName: 'Project Name',
         description: 'Description',
         date: 'Date',
+        edit: 'Edit',
+        delete: 'Delete',
+        projectDescription: "Project Description",
+    },
+    AddAndUpateProject: {
+        active: 'Active',
+        inactive: 'Inative',
+    },
+    hint: {
+        PlsEnterUName: 'Please Enter Your Name Like: Moaz kuzez',
+        PlsEnterUEmail: 'Plase Enter Your Account Like: Moazkuzez5@gmail.com',
+        PlsEnterUPassword: 'Please Enter Your Password',
+        PlsEnterUConfrimPassword: 'Please Enter Confirm Password',
+        PlsEnterProjectName: 'Please Enter Project Name',
+        PlsEnterProjectdescription: 'Please Enter Project Decription',
+        PlsEnterProjectdate: 'Please Enter Project Date',
 
     },
     
