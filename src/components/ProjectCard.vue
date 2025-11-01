@@ -1,5 +1,7 @@
 <script>
 import { RouterLink } from "vue-router";
+import { mapState, mapActions } from 'pinia';
+import { useDataStore } from '@/store/post'
 import Delete from "./Delete.vue";
 import AddAndUpateProject from "./AddAndUpateProject.vue";
 export default {
@@ -8,6 +10,7 @@ export default {
     return {
       activeDialogDelete: false,
       activeDialogEdit: false,
+      activeOwner: false
     };
   },
   methods: {
@@ -16,18 +19,29 @@ export default {
     },
     activeEdit() {
       this.activeDialogEdit = true
+      console.log(this.ProjectProps);
+      
     },
     GoToTasks() {
       this.$router.push(`/Home/${this.ProjectProps.id}`);
     },
   },
   computed: {
+    ...mapState(useDataStore, ['userId']),
     NOPinsideProject() {
       return (this.ProjectProps.assignedUsers?.length || 0) + 1;
     },
     CorrcetDate() {
       return new Date(this.ProjectProps.dueDate).toLocaleDateString();
     },
+  },
+  mounted() {
+    if(this.ProjectProps.creator.id == this.userId) {
+      this.activeOwner = true
+    }
+    else {
+
+    }
   },
   components: {
     Delete,
@@ -56,15 +70,23 @@ export default {
       </p>
     </div>
     <v-card-actions class="justify-center">
-      <v-btn @click.stop="activeEdit" class="bg-warning w-50">{{ $t("projectManagement.edit") }}</v-btn>
-      <v-btn @click.stop="activeDelete" class="bg-red-accent-4 w-50">{{ $t("projectManagement.delete") }}</v-btn>
+      <v-btn @click.stop="activeEdit" v-if="activeOwner" class="bg-warning w-50">{{ $t("projectManagement.edit") }}</v-btn>
+      <v-btn @click.stop="activeDelete" v-if="activeOwner" class="bg-red-accent-4 w-50">{{ $t("projectManagement.delete") }}</v-btn>
     </v-card-actions>
     <Delete
       v-model="activeDialogDelete"
       @close="activeDialogDelete = false"
+      :ProjectId="ProjectProps.id"
       :Name="ProjectProps.name"
       POT="Project"
     ></Delete>
-    <AddAndUpateProject v-model="activeDialogEdit" @close="activeDialogEdit = false" :ProjectName="ProjectProps.name" :ProjectDescription="ProjectProps.description" :ProjectDate="ProjectProps.dueDate"></AddAndUpateProject>
+    <AddAndUpateProject
+      v-model="activeDialogEdit" 
+      @close="activeDialogEdit = false"
+      :ProjectId="ProjectProps.id" 
+      :ProjectName="ProjectProps.name" 
+      :ProjectDescription="ProjectProps.description" 
+      :ProjectDate="ProjectProps.dueDate">
+    </AddAndUpateProject>
   </v-card>
 </template>

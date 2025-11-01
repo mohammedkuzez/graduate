@@ -1,114 +1,96 @@
 import { defineStore } from 'pinia'
 
-export const useDataStore = defineStore('Data', {
-    state() {
-        return {
-         users : [{
-                id: 1,
-                email: 'john.doe@gmail.com',
-                name: 'John Doe',
-                role: 'MEMBER'
-            },
-            {
-                id: 2,
-                email: 'moaz.k@gmail.com',
-                name: 'moaz k',
-                role: 'MEMBER'
-            },
-            {
-                id: 3,
-                email: 'Anas.k@gmail.com',
-                name: 'Anas k',
-                role: 'MEMBER'
-            },
-        ],
-         ProjectManag : [  {
-                id: 1,
-                name: "Website Redesign",
-                description: "Complete overhaul oaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaf the company website this is me so you can see",
-                dueDate: "2025-12-31",
-                creatorId: 1,
-                creator: {
-                    id: 1,
-                    name: "John Doe",
-                    email: "john@gmail.com",
-                },
-                assignedUsers: [
-                    {
-                    id: 6,
-                    name: "Noor Kuzez",
-                    email: "john@gmail.com",
-                },
-                {
-                    id: 7,
-                    name: "Suhayn Kuzez",
-                    email: "john@gmail.com",
-                },
-                {
-                    id: 8,
-                    name: "Luay Kuzez",
-                    email: "john@gmail.com",
-                },
-                ],
-                createdAt: "2025-01-15T10:00:00Z",
-                updatedAt: "2025-01-15T10:00:00Z",
-            },
-            {
-                id: 2,
-                name: "Moaz Kuzez",
-                description: "Complete overhaul of the company website",
-                dueDate: "2025-12-31",
-                creatorId: 2,
-                creator: {
-                    id: 2,
-                    name: "Moaz Kuzez",
-                    email: "Moaz@gmail.com",
-                },
-                assignedUsers: [],
-                createdAt: "2025-01-15T10:00:00Z",
-                updatedAt: "2025-01-15T10:00:00Z",
-            },
-            {
-                id: 3,
-                name: "Anas Kuzez",
-                description: "Complete overhaul of the company website",
-                dueDate: "2025-12-31",
-                creatorId: 3,
-                creator: {
-                    id: 3,
-                    name: "Anas Kuzez",
-                    email: "Anas@gmail.com",
-                },
-                assignedUsers: [],
-                createdAt: "2025-01-15T10:00:00Z",
-                updatedAt: "2025-01-15T10:00:00Z",
-            },
-        ],
-        }
+export const useDataStore = defineStore('project', {
+    state: () => ({
+        users : [],
+        AllProjects: [],
+        ProjectManag : [],
+        CreatePro : {},
+        UpdatePro: {},
+        DeletePro: '',
+        token: localStorage.getItem('token'),
+        userId: Number(localStorage.getItem('userId')),
+    }),
+    actions: {
+        async Projectlist() {
+
+            try {
+                const res = await fetch('https://project-management-barakah.vercel.app/projects', {
+                    headers: {
+                        Authorization:
+                            `Bearer ${this.token}`,
+                            'Content-Type': 'application/json',
+                    },
+                })
+                this.AllProjects = await res.json()
+                console.log('ProjectManag: ', this.AllProjects);
+                console.log('userId: ', this.userId);
+                this.ProjectManag = this.AllProjects.filter(
+                project =>
+                    project.creator.id === this.userId ||
+                    project.assignedUsers.some(user => user.id === this.userId)
+                );
+                console.log('ProjectManag: ', this.ProjectManag);
+                return this.ProjectManag
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async createProject(name,description,dueDate) {
+            try {
+                const res = await fetch('https://project-management-barakah.vercel.app/projects', {
+                    method: "POST",
+                    body: JSON.stringify({ name,description,dueDate }),
+                    headers: {
+                        Authorization:
+                            `Bearer ${this.token}`,
+                            'Content-Type': 'application/json',
+                    },
+                })
+                this.CreatePro = await res.json()
+                console.log('CreatePro: ', this.CreatePro);
+                
+                return true
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async updateProject(id,name,description,dueDate) {
+            try {
+                const res = await fetch(`https://project-management-barakah.vercel.app/projects/${id}`, {
+                    method: "PATCH",
+                    body: JSON.stringify({ name,description,dueDate }),
+                    headers: {
+                        Authorization:
+                            `Bearer ${this.token}`,
+                            'Content-Type': 'application/json',
+                    },
+                })
+                this.UpdatePro = await res.json()
+                console.log('UpdatePro: ', this.UpdatePro);
+                return true
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async deleteProject(id) {
+            try {
+                const res = await fetch(`https://project-management-barakah.vercel.app/projects/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        Authorization:
+                            `Bearer ${this.token}`,
+                            'Content-Type': 'application/json',
+                    },
+                })
+                this.DeletePro = await res.json()
+                console.log('Deleteid: ', id);
+                console.log('DeletePro: ', this.DeletePro);
+                if(this.DeletePro.message == 'Project successfully deleted') return true
+                else return false
+            } catch (error) {
+                console.log(error)
+            }
+        },
     },
-
-  getters: {
-
-  },
-
-  actions: {
-    deleteProjectByName(name) {
-      this.ProjectManag = this.ProjectManag.filter(project => project.name !== name)
-    },
-        UpateProjectByName(oldName, newName, newDescription, newDate) {
-      const index = this.ProjectManag.findIndex(
-        project => project.name === oldName
-      );
-      if (index !== -1) {
-        this.ProjectManag[index] = {
-          ...this.ProjectManag[index],
-          name: newName,
-          description: newDescription,
-          dueDate: newDate,
-        };
-  }
-  console.log(this.ProjectManag);
-  
-}
-}
 })

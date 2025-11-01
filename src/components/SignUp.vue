@@ -3,6 +3,7 @@ import { Field, Form, defineRule } from 'vee-validate'
 import { required, email } from '@vee-validate/rules'
 import { useDataStore } from '@/store/post'
 import { mapState, mapActions } from 'pinia';
+import { useAuthStore } from "@/store/auth"
 
 export default {
   components: {
@@ -13,6 +14,14 @@ export default {
     return {
       showPassword: false,
       ConfirmPassword: false,
+      getProject: {
+        FirstName: '',
+        LastName: '',
+        Account: '',
+        Password: '',
+        ConfirmPassword: '',
+      },
+      role: 'MEMBER',
     }
   },
   mounted() {
@@ -23,15 +32,25 @@ export default {
     })
   },
   methods: {
+    ...mapActions(useAuthStore, ['SignUp']),
     togglePassword() {
       this.showPassword = !this.showPassword
     },
     ConfirmtogglePassword() {
       this.ConfirmPassword = !this.ConfirmPassword
     },
-    onSubmit(values) {
-      alert('Form Submitted:\n' + JSON.stringify(values, null, 2))
+    async onSubmit(values) {
+      this.getProject = { ...values }
+      await this.getSignUp()
     },
+    async getSignUp() {
+      let success = await this.SignUp(this.getProject.FirstName,this.getProject.LastName,this.getProject.Account,this.getProject.Password,this.role)
+      if (success) {
+        this.$router.push("/Login")
+      } else {
+        alert("Signup failed")
+      }
+    }
   },
   computed: {
     ...mapState(useDataStore, ['users']),
@@ -57,11 +76,12 @@ defineRule('minName', function(value) {
   if (/[0-9]/.test(value)) return 'Must not include a number'
   return true
 })
-defineRule('confirmPassword', (value, params) => {
-  if (!value) return 'Confirm Password is required'
-  if (value !== params.password) return 'Passwords do not match'
-  return true
-})
+defineRule('confirmed', (value, [target]) => {
+  if (value === target) {
+    return true;
+  }
+  return 'Password must match';
+});
 </script>
 
 
@@ -82,11 +102,24 @@ defineRule('confirmPassword', (value, params) => {
       rounded="lg"
     >
     <Form @submit="onSubmit" v-slot="{ values }">
-        <Field class="mt-2" name="Name" :rules="'required|minName'" v-slot="{ field, errors }">
+        <Field class="mt-2" name="FirstName" :rules="'required|minName'" v-slot="{ field, errors }">
       <v-text-field
       class="mt-2"
-        :label="$t('signUp.fullName')"
-        :hint="$t('hint.PlsEnterUName')"
+        :label="$t('signUp.FirstName')"
+        :hint="$t('hint.PlsEnterUFirstName')"
+        v-bind="field"
+        density="compact"
+        prepend-inner-icon="mdi-account-outline"
+        variant="outlined"
+        :error="errors.length > 0"
+        :error-messages="errors"
+      ></v-text-field>
+        </Field>
+        <Field class="mt-2" name="LastName" :rules="'required|minName'" v-slot="{ field, errors }">
+      <v-text-field
+      class="mt-2"
+        :label="$t('signUp.LastName')"
+        :hint="$t('hint.PlsEnterULastName')"
         v-bind="field"
         density="compact"
         prepend-inner-icon="mdi-account-outline"
@@ -96,7 +129,7 @@ defineRule('confirmPassword', (value, params) => {
       ></v-text-field>
         </Field>
 
-        <Field class="mt-2" name="email" :rules="'required|email|uniqueEmail'" v-slot="{ field, errors }">
+        <Field class="mt-2" name="Account" :rules="'required|email|uniqueEmail'" v-slot="{ field, errors }">
       <v-text-field
       class="mt-2"
         :label="$t('signUp.emailAddress')"
@@ -110,7 +143,7 @@ defineRule('confirmPassword', (value, params) => {
         :error-messages="errors"
       ></v-text-field>
         </Field>
-      <Field class="mt-2" name="password" :rules="'required|strongPassword'" v-slot="{ field, errors }">
+      <Field class="mt-2" name="Password" :rules="'required|strongPassword'" v-slot="{ field, errors }">
       <v-text-field
       class="mt-2"
        :label="$t('signUp.password')"
@@ -126,7 +159,7 @@ defineRule('confirmPassword', (value, params) => {
         :error-messages="errors"
       ></v-text-field>
         </Field>
-      <Field class="mt-2" name="Confirm password" :rules="{ confirmPassword: { password: values.password } }" v-slot="{ field, errors }">
+      <Field class="mt-2" name="ConfirmPassword" rules="required|confirmed:@Password" v-slot="{ field, errors }">
       <v-text-field
       class="mt-2"
        :label="$t('signUp.confirmPassword')"
@@ -149,6 +182,7 @@ defineRule('confirmPassword', (value, params) => {
         size="large"
         variant="tonal"
         block
+        type="submit"
       >
         {{ $t('signUp.signUp') }}
       </v-btn>

@@ -4,6 +4,8 @@ import { en } from "vuetify/locale"
 export default {
     signUp: {
         fullName: 'Full Name',
+        FirstName: 'First Name',
+        LastName: 'Last Name',
         emailAddress: 'Email Adderss',
         password: 'Passowrd',
         confirmPassword: 'Confirm Password',
@@ -37,8 +39,9 @@ export default {
         inactive: 'Inative',
     },
     hint: {
-        PlsEnterUName: 'Please Enter Your Name Like: Moaz kuzez',
-        PlsEnterUEmail: 'Plase Enter Your Account Like: Moazkuzez5@gmail.com',
+        PlsEnterUFirstName: 'Please Enter Your First Name Like: Moaz',
+        PlsEnterULastName: 'Please Enter Your Last Name Like: Kuzez',
+        PlsEnterUEmail: 'Plase Enter Your Account',
         PlsEnterUPassword: 'Please Enter Your Password',
         PlsEnterUConfrimPassword: 'Please Enter Confirm Password',
         PlsEnterProjectName: 'Please Enter Project Name',

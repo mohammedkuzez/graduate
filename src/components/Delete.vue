@@ -3,11 +3,14 @@ import { useDataStore } from "@/store/post";
 import { mapState, mapActions } from "pinia";
 
 export default {
-    props: ['Name','POT'],
+    props: ['ProjectId','Name','POT'],
  methods: {
-    DeleteFun() {
-        const store = useDataStore()
-        store.deleteProjectByName(this.Name)
+  ...mapActions(useDataStore, ["Projectlist","deleteProject"]),
+    async DeleteFun() {
+      console.log(this.ProjectId);
+      
+        let sccuss= await this.deleteProject(this.ProjectId)
+        await this.Projectlist()
         this.$emit('close')
     },
  },

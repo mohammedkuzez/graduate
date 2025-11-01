@@ -3,10 +3,11 @@ import { Field, Form, defineRule } from 'vee-validate'
 import { required, email, min } from '@vee-validate/rules'
 import { useDataStore } from '@/store/post'
 import { mapState, mapActions } from 'pinia';
+import Snackbar from './Snackbar.vue';
 
 
 export default {
-  props: ['ProjectName', 'ProjectDescription', 'ProjectDate'],
+  props: ['ProjectId', 'ProjectName', 'ProjectDescription', 'ProjectDate'],
   data() {
     return {
       visible: true,
@@ -17,11 +18,13 @@ export default {
         dueDate: '',
       },
       currentDate: new Date().toISOString().split('T')[0],
-      ActiveOrINAtive: 'Inactive'
+      ActiveOrINAtive: 'Inactive',
     };
   },
   methods: {
-    save(values) {
+    ...mapActions(useDataStore, ["Projectlist",'createProject','updateProject']),
+
+    async save(values) {
       // const index = this.ProjectManag.findIndex(
         //   (originalItem) => originalItem.name === this.ProjectManag.name
         // )
@@ -30,14 +33,21 @@ export default {
         this.Project = { ...values, state: this.Project.state }
         
         if(this.ProjectName){
-          const store = useDataStore()
-          store.UpateProjectByName(this.ProjectName,this.Project.name,this.Project.description,this.Project.dueDate)
-          this.$emit('close')
+          if(this.creatorId == this.userId) {
+          console.log(this.ProjectId);
+          await this.updateProject(this.ProjectId,this.Project.name,this.Project.description,this.Project.dueDate)
+          await this.Projectlist()
+          this.$emit('close','Project update successfully')
+          }
+          else {
 
+          }
+          
         }
         else {
-          this.ProjectManag.push(this.Project);
-          this.$emit('close')
+          await this.createProject(this.Project.name,this.Project.description,this.Project.dueDate)
+          await this.Projectlist()
+          this.$emit('close','Project add successfully')
         }
       },
       switchactive() {
@@ -48,9 +58,11 @@ export default {
   computed: {
     ...mapState(useDataStore, ['ProjectManag']),
   },
+
   components: {
     Field,
     Form,
+    Snackbar,
 
   }
 };

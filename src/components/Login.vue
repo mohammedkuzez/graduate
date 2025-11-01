@@ -3,6 +3,7 @@
       import { Field, Form, defineRule } from 'vee-validate'
       import { required, email, min } from '@vee-validate/rules'
       import { useDataStore } from '@/store/post'
+      import { useAuthStore } from '@/store/auth'
       import { mapState, mapActions } from 'pinia';
       
       export default {
@@ -12,7 +13,11 @@
         },
         data() {
           return {
-            showPassword: false
+            showPassword: false,
+            getProject: {
+              Account: '',
+              Password: '',
+            },
           }
         },
         mounted() {
@@ -23,11 +28,24 @@
           })
         },
         methods: {
+          ...mapActions(useAuthStore, ['login']),
+          
           togglePassword() {
             this.showPassword = !this.showPassword
           },
-          onSubmit(values) {
-            alert('Form Submitted:\n' + JSON.stringify(values, null, 2))
+          async onSubmit(values) {
+            this.getProject = { ...values }
+            await this.getLogin()
+          },
+          async getLogin() {
+
+            const success = await this.login(this.getProject.Account, this.getProject.Password)
+
+            if (success) {
+              this.$router.push("/Home")
+            } else {
+              alert("Login failed")
+            }
           },
         },
         computed: {
@@ -42,7 +60,7 @@
       defineRule('email', email)
       defineRule('min', min)
       
-      defineRule('strongPassword', function(value) {
+      defineRule('LogstrongPassword', function(value) {
         if (!value) return 'Password is required'
         if (value.length < 8) return 'Must be at least 8 characters'
         if (!/[A-Z]/.test(value)) return 'Must include an uppercase letter'
@@ -74,7 +92,7 @@
     >
     <Form @submit="onSubmit">
       <div class="text-subtitle-1 text-medium-emphasis">{{ $t('signUp.account') }}</div>
-        <Field name="email" :rules="'required|email|uniqueEmail'" v-slot="{ field, errors }">
+        <Field name="Account" :rules="'required|email|uniqueEmail'" v-slot="{ field, errors }">
       <v-text-field
         v-bind="field"
         density="compact"
@@ -94,7 +112,7 @@
         >
           {{ $t('signUp.forgotPassword') }}</a>
       </div>
-      <Field name="password" :rules="'required|strongPassword'" v-slot="{ field, errors }">
+      <Field name="Password" :rules="'required|LogstrongPassword'" v-slot="{ field, errors }">
       <v-text-field
         v-bind="field"
         :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"

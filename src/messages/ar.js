@@ -5,6 +5,8 @@ import { ar } from 'vuetify/locale'
 export default {
     signUp: {
         fullName: 'الاسم الكامل',
+        FirstName: 'الاسم الأول',
+        LastName: 'الاسم الأخير',
         emailAddress: 'البريد الالكتروني',
         password: 'كلمة المرور',
         confirmPassword: 'تاكيد كلمة المرور',
@@ -39,7 +41,8 @@ export default {
         inactive: 'إلغاء التفعيل',
     },
     hints: {
-        PlsEnterUName: 'ادخل اسمك من فضلك مثل: محمد معاذ قزيز',
+        PlsEnterUFirstName: 'ادخل اسمك من فضلك مثل: محمد معاذ',
+        PlsEnterULastName: 'ادخل اسمك من فضلك مثل: قزيز',
         PlsEnterUEmail: 'ادخل حسابك الالكتروني من فضلك',
         PlsEnterUPassword: 'ادخل كلمة السر من فضلك',
         PlsEnterUConfrimPassword: 'ادخل تأكيد كلمة المرور',

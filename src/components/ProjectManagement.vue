@@ -5,25 +5,38 @@ import { useDataStore } from "@/store/post";
 import { mapState, mapActions } from "pinia";
 import AddAndUpateProject from "./AddAndUpateProject.vue";
 import ProjectCard from "./ProjectCard.vue";
+import Snackbar from "./Snackbar.vue";
 
 export default {
   data() {
     return {
       activeDialog: false,
+      Snackbadd: false,
+      message: ''
     };
   },
   components: {
     AddAndUpateProject,
     ProjectCard,
+    Snackbar
   },
   computed: {
     ...mapState(useDataStore, ["ProjectManag"]),
   },
   methods: {
+    ...mapActions(useDataStore, ["Projectlist"]),
+    handleClose(message) {
+      this.activeDialog = false
+      this.Snackbadd = true
+      this.message = message
+    },
     activeProjectDialog() {
       this.activeDialog = true;
     },
   },
+  async mounted() {
+    await this.Projectlist()
+  }
 };
 </script>
 
@@ -50,6 +63,7 @@ export default {
   <AddAndUpateProject
     v-if="activeDialog"
     :update="false"
-    @close="activeDialog = false"
+    @close="handleClose"
   ></AddAndUpateProject>
+    <template><Snackbar v-model="Snackbadd" :Message="this.message"></Snackbar></template>
 </template>

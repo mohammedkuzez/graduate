@@ -12,8 +12,6 @@ export default {
         items() {
         return [
             { text: this.$t('home.projectManagement'), icon: 'mdi-account-multiple', link: '/Home/Project_Management' },
-            { text: this.$t('home.taskManagement'), icon: 'mdi-account-multiple', link: '/Home/Task_Management' },
-            { text: this.$t('home.taskStatusManagement'), icon: 'mdi-account-multiple', link: '/Home/Task_Status_Management' },
             { text: this.$t('home.dashboard'), icon: 'mdi-account-multiple', link: '/Home/Dashboard' },
             { text: this.$t('home.invitation'), icon: 'mdi-account-multiple', link: '/Home/Invitation' },
     ]},

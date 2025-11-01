@@ -5,8 +5,6 @@ import Login from '@/components/Login.vue'
 import SignUp from '@/components/SignUp.vue'
 import Home from '@/components/Home.vue'
 import ProjectManagement from '@/components/ProjectManagement.vue'
-import TaskManagement from '@/components/TaskManagement.vue'
-import TaskStatusManagement from '@/components/TaskStatusManagement.vue'
 import Dashboard from '@/components/Dashboard.vue'
 import Invitation from '@/components/Invitation.vue'
 import NotFoundView from '@/components/NotFoundView.vue'
@@ -30,8 +28,6 @@ const routes = [
         component: Home,
         children: [
             { path: 'Project_Management',name: 'Project Management',component: ProjectManagement },
-            { path: 'Task_Management',name: 'Task Management',component: TaskManagement },
-            { path: 'Task_Status_Management', name: 'Task Status Management', component: TaskStatusManagement },
             { path: 'Dashboard',name: 'Dashboard',component: Dashboard },
             { path: 'Invitation',name: 'Invitation',component: Invitation },
             { path: ':ProjectId',name: 'Project Tasks',component: ProjectTasks },
