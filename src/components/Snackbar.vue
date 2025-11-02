@@ -9,7 +9,7 @@ export default {
       :timeout="2000"
       color="primary"
       variant="tonal"
-      location="top right" 
+      location="top" 
     >
 
       {{ Message }}

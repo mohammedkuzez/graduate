@@ -10,10 +10,12 @@ export const useDataStore = defineStore('project', {
         DeletePro: '',
         token: localStorage.getItem('token'),
         userId: Number(localStorage.getItem('userId')),
+        ProjectName: '',
+        ProjectDate: '',
+        GetTasksProject: {},
     }),
     actions: {
         async Projectlist() {
-
             try {
                 const res = await fetch('https://project-management-barakah.vercel.app/projects', {
                     headers: {
@@ -45,7 +47,7 @@ export const useDataStore = defineStore('project', {
                         Authorization:
                             `Bearer ${this.token}`,
                             'Content-Type': 'application/json',
-                    },
+                        },
                 })
                 this.CreatePro = await res.json()
                 console.log('CreatePro: ', this.CreatePro);
@@ -64,7 +66,7 @@ export const useDataStore = defineStore('project', {
                         Authorization:
                             `Bearer ${this.token}`,
                             'Content-Type': 'application/json',
-                    },
+                        },
                 })
                 this.UpdatePro = await res.json()
                 console.log('UpdatePro: ', this.UpdatePro);
@@ -79,18 +81,111 @@ export const useDataStore = defineStore('project', {
                     method: "DELETE",
                     headers: {
                         Authorization:
-                            `Bearer ${this.token}`,
+                        `Bearer ${this.token}`,
                             'Content-Type': 'application/json',
-                    },
+                        },
                 })
                 this.DeletePro = await res.json()
                 console.log('Deleteid: ', id);
                 console.log('DeletePro: ', this.DeletePro);
-                if(this.DeletePro.message == 'Project successfully deleted') return true
+                if(this.DeletePro.id) return true
                 else return false
             } catch (error) {
                 console.log(error)
             }
         },
+        async GetTasksByProjectId(projectId) {
+            try {
+                const res = await fetch(`https://project-management-barakah.vercel.app/tasks/project/${projectId}`, {
+                    method: "GET",
+                    headers: {
+                        Authorization:
+                        `Bearer ${this.token}`,
+                        'Content-Type': 'application/json',
+                    },
+                })
+                this.GetTasksProject = await res.json()
+                console.log('GetTasksProject: ', this.GetTasksProject);
+                if(this.GetTasksProject[0].id) return this.GetTasksProject
+                else return false
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async GetProjectById(projectId) {
+            try {
+                const res = await fetch(`https://project-management-barakah.vercel.app/projects/${projectId}`, {
+                    method: "GET",
+                    headers: {
+                        Authorization:
+                            `Bearer ${this.token}`,
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                let GetPrject = await res.json()
+                console.log('GetPrject: ', GetPrject);
+                this.ProjectDate = GetPrject.dueDate
+                if(GetPrject) return GetPrject.dueDate
+                else return false
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async createTask(name,description,startDate,endDate,projectId,userId,statusId) {
+            try {
+                const res = await fetch(`https://project-management-barakah.vercel.app/tasks`, {
+                    method: "POST",
+                    body: JSON.stringify({ name,description,startDate,endDate,projectId,userId,statusId }),
+                    headers: {
+                        Authorization:
+                        `Bearer ${this.token}`,
+                        'Content-Type': 'application/json',
+                    },
+                })
+                let createTask = await res.json()
+                console.log('createTask: ', createTask);
+                if(createTask) return true
+                else return false
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async deleteTask(id) {
+            try {
+                const res = await fetch(`https://project-management-barakah.vercel.app/tasks/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        Authorization:
+                        `Bearer ${this.token}`,
+                            'Content-Type': 'application/json',
+                        },
+                })
+                this.DeletePro = await res.json()
+                console.log('DeletePro: ', this.DeletePro);
+                if(this.DeletePro.id) return true
+                else return false
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async updateTask(id,name,description,startDate,endDate,userId,statusId) {
+            try {
+                const res = await fetch(`https://project-management-barakah.vercel.app/tasks/${id}`, {
+                    method: "PATCH",
+                    body: JSON.stringify({ name,description,startDate,endDate,userId,statusId }),
+                    headers: {
+                        Authorization:
+                            `Bearer ${this.token}`,
+                            'Content-Type': 'application/json',
+                        },
+                })
+                let UpdateTask = await res.json()
+                console.log('UpdateTask: ', UpdateTask);
+                return true
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
     },
 })

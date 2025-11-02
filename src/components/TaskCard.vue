@@ -3,9 +3,9 @@ import { RouterLink } from "vue-router";
 import { mapState, mapActions } from 'pinia';
 import { useDataStore } from '@/store/post'
 import Delete from "./Delete.vue";
-import AddAndUpateProject from "./AddAndUpateProject.vue";
+import AddAndUpateTask from "./AddAndUpateTask.vue";
 export default {
-  props: ['ProjectProps'],
+  props: ['TaskProps','ProjectID','ProjectDueDate'],
   emits: ['UpdateMessage', 'DeleteMessage'],
   data() {
     return {
@@ -21,12 +21,11 @@ export default {
     },
     activeEdit() {
       this.activeDialogEdit = true
-      console.log(this.ProjectProps);
       
     },
-    GoToTasks() {
-      localStorage.setItem('ProjectId', this.ProjectProps.id)
-      this.$router.push(`/Home/${this.ProjectProps.id}`);
+    GoToTaskDeitals() {
+      localStorage.setItem('ProjectId', this.TaskProps.id)
+      this.$router.push(`/Home/${this.TaskProps.id}`);
     },
     handleClose(message) {
       this.activeDialogEdit = false
@@ -42,15 +41,15 @@ export default {
   },
   computed: {
     ...mapState(useDataStore, ['userId']),
-    NOPinsideProject() {
-      return (this.ProjectProps.assignedUsers?.length || 0) + 1;
+    ForWhoThisTask() {
+      return this.TaskProps.creator.name;
     },
-    CorrcetDate() {
-      return new Date(this.ProjectProps.dueDate).toLocaleDateString();
+    EndDate() {
+      return new Date(this.TaskProps.endDate).toLocaleDateString();
     },
   },
   mounted() {
-    if(this.ProjectProps.creator.id == this.userId) {
+    if(this.TaskProps.creator.id == this.userId) {
       this.activeOwner = true
     }
     else {
@@ -59,48 +58,53 @@ export default {
   },
   components: {
     Delete,
-    AddAndUpateProject,
+    AddAndUpateTask,
   },
 };
 </script>
 
 <template>
   <v-card
-    @click="GoToTasks"
+    @click="GoToTaskDeitals"
     class="bg-white p-5 rounded-md shadow hover:shadow-lg transition pa-4"
   >
-    <h3 class="text-xl font-semibold py-3">{{ ProjectProps.name }}</h3>
+    <h3 class="text-xl font-semibold py-3">{{ TaskProps.name }}</h3>
     <p class="text-blue-grey-darken-1 py-5 h-100 text-body-2 text-truncate">
-      {{ ProjectProps.description }}
+      {{ TaskProps.description }}
     </p>
     <div class="d-flex justify-space-between py-3">
+        <p class="text-blue-grey-darken-3 mb-3">
+          <v-icon icon="mdi-account-multiple-outline"></v-icon
+          >{{ " " + ForWhoThisTask }}
+        </p>
       <p class="text-blue-grey-darken-3 mb-3">
         <v-icon icon="mdi-calendar-clock-outline"></v-icon
-        >{{ " " + CorrcetDate }}
-      </p>
-      <p class="text-blue-grey-darken-3 mb-3">
-        <v-icon icon="mdi-account-multiple-outline"></v-icon
-        >{{ " " + NOPinsideProject }}
+        >{{ EndDate }}
       </p>
     </div>
     <v-card-actions class="justify-center">
-      <v-btn @click.stop="activeEdit" v-if="activeOwner" class="bg-warning w-50">{{ $t("projectManagement.edit") }}</v-btn>
-      <v-btn @click.stop="activeDelete" v-if="activeOwner" class="bg-red-accent-4 w-50">{{ $t("projectManagement.delete") }}</v-btn>
+      <v-btn @click.stop="activeEdit" v-if="activeOwner" class="bg-warning w-50">{{ $t("ProjectTasks.edit") }}</v-btn>
+      <v-btn @click.stop="activeDelete" v-if="activeOwner" class="bg-red-accent-4 w-50">{{ $t("ProjectTasks.delete") }}</v-btn>
     </v-card-actions>
     <Delete
       v-model="activeDialogDelete"
-      @close="deleteClose"
-      :ProjectId="ProjectProps.id"
-      :Name="ProjectProps.name"
-      POT="Project"
+      @me="deleteClose"
+      :TaskId="TaskProps.id"
+      :ProjectId="ProjectID"
+      :Name="TaskProps.name"
+      POT="Task"
     ></Delete>
-    <AddAndUpateProject
+    <AddAndUpateTask
       v-model="activeDialogEdit" 
       @close="handleClose"
-      :ProjectId="ProjectProps.id" 
-      :ProjectName="ProjectProps.name" 
-      :ProjectDescription="ProjectProps.description" 
-      :ProjectDate="ProjectProps.dueDate">
-    </AddAndUpateProject>
+      :TaskId="this.TaskProps.id"
+      :ProjectID="ProjectID"
+      :ProjectDueDate="ProjectDueDate"
+      :TaskName="TaskProps.name" 
+      :TaskDescription="TaskProps.description" 
+      :TaskSelect="TaskProps.status.name" 
+      :TaskStartDate="TaskProps.startDate"
+      :TaskEndDate="TaskProps.endDate">
+    </AddAndUpateTask>
   </v-card>
 </template>

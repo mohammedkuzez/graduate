@@ -25,29 +25,20 @@ export default {
     ...mapActions(useDataStore, ["Projectlist",'createProject','updateProject']),
 
     async save(values) {
-      // const index = this.ProjectManag.findIndex(
-        //   (originalItem) => originalItem.name === this.ProjectManag.name
-        // )
-        //   this.ProjectManag[index] = { ...this.AddItem }
-        // Example: save into your store or local object
+
         this.Project = { ...values, state: this.Project.state }
         
         if(this.ProjectName){
-          if(this.creatorId == this.userId) {
           console.log(this.ProjectId);
           await this.updateProject(this.ProjectId,this.Project.name,this.Project.description,this.Project.dueDate)
           await this.Projectlist()
-          this.$emit('close','Project update successfully')
-          }
-          else {
-
-          }
+          this.$emit('close','Project Update successfully')
           
         }
         else {
           await this.createProject(this.Project.name,this.Project.description,this.Project.dueDate)
           await this.Projectlist()
-          this.$emit('close','Project add successfully')
+          this.$emit('close','Project Add successfully')
         }
       },
       switchactive() {

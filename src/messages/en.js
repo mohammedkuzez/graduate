@@ -47,7 +47,22 @@ export default {
         PlsEnterProjectName: 'Please Enter Project Name',
         PlsEnterProjectdescription: 'Please Enter Project Decription',
         PlsEnterProjectdate: 'Please Enter Project Date',
-
+        PlsEnterTaskName: 'Please Enter Task Name',
+        PlsEnterTaskdescription: 'Please Enter Task Decription',
+        PlsEnterTaskStartDate: 'Please Enter When you will Start Doing the Task',
+        PlsEnterTaskDueDate: 'Please Enter When you will End Task',
+    },
+    ProjectTasks: {
+        Project: 'Project',
+        TaskName: 'Task Name',
+        description: 'Description',
+        NewTask: '+ New Task',
+        addingTask: 'Adding Task',
+        TaskState: 'Task State',
+        TaskStartDate: 'Start Date',
+        TaskDueDate: 'Due Date',
+        edit: 'Edit',
+        delete: 'Delete',
     },
     
     title: 'Bloggy',

@@ -25,11 +25,7 @@ export default {
     }
   },
   mounted() {
-    defineRule('uniqueEmail', (value) => {
-      if (!value) return true
-      const exists = this.users.find(user => user.email.toLowerCase() === value.toLowerCase())
-      return exists ? 'This email is already taken' : true
-    })
+
   },
   methods: {
     ...mapActions(useAuthStore, ['SignUp']),
@@ -129,7 +125,7 @@ defineRule('confirmed', (value, [target]) => {
       ></v-text-field>
         </Field>
 
-        <Field class="mt-2" name="Account" :rules="'required|email|uniqueEmail'" v-slot="{ field, errors }">
+        <Field class="mt-2" name="Account" :rules="'required|email'" v-slot="{ field, errors }">
       <v-text-field
       class="mt-2"
         :label="$t('signUp.emailAddress')"

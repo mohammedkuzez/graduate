@@ -11,7 +11,8 @@ export default {
   data() {
     return {
       activeDialog: false,
-      Snackbadd: false,
+      Snackbar: false,
+      SnackbUpdate: false,
       message: ''
     };
   },
@@ -26,13 +27,23 @@ export default {
   methods: {
     ...mapActions(useDataStore, ["Projectlist"]),
     handleClose(message) {
+      console.log('massage: ',message);
       this.activeDialog = false
-      this.Snackbadd = true
+      this.Snackbar = true
       this.message = message
     },
-    activeProjectDialog() {
-      this.activeDialog = true;
+    SnackbarUpdate(message) {
+      console.log('massage: ',message);
+      this.Snackbar = true
+      this.message = message
     },
+    SnackbarDelete(message) {
+      console.log('massage: ',message);
+      console.log('ProjectManagement: ' , message);
+      this.Snackbar = true
+      this.message = message
+    },
+
   },
   async mounted() {
     await this.Projectlist()
@@ -43,7 +54,7 @@ export default {
 <template>
   <div class="d-flex justify-space-between align-center mb-4">
     <h1>{{ $t("projectManagement.yourProjects") }}</h1>
-    <v-btn @click="activeProjectDialog" class="bg-secondary">{{
+    <v-btn @click="activeDialog = true" class="bg-secondary">{{
       $t("projectManagement.addProject")
     }}</v-btn>
   </div>
@@ -56,7 +67,7 @@ export default {
         sm="6"
         md="4"
       >
-        <ProjectCard :ProjectProps="project" />
+        <ProjectCard :ProjectProps="project" @UpdateMessage="SnackbarUpdate" @DeleteMessage="SnackbarDelete" />
       </v-col>
     </v-row>
   </v-container>
@@ -65,5 +76,5 @@ export default {
     :update="false"
     @close="handleClose"
   ></AddAndUpateProject>
-    <template><Snackbar v-model="Snackbadd" :Message="this.message"></Snackbar></template>
+    <template><Snackbar v-model="Snackbar" :Message="message"></Snackbar></template>
 </template>

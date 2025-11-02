@@ -92,7 +92,7 @@
     >
     <Form @submit="onSubmit">
       <div class="text-subtitle-1 text-medium-emphasis">{{ $t('signUp.account') }}</div>
-        <Field name="Account" :rules="'required|email|uniqueEmail'" v-slot="{ field, errors }">
+        <Field name="Account" :rules="'required|email'" v-slot="{ field, errors }">
       <v-text-field
         v-bind="field"
         density="compact"

@@ -3,19 +3,35 @@ import { useDataStore } from "@/store/post";
 import { mapState, mapActions } from "pinia";
 
 export default {
-    props: ['ProjectId','Name','POT'],
+    props: ['ProjectId','TaskId','Name','POT'],
  methods: {
-  ...mapActions(useDataStore, ["Projectlist","deleteProject"]),
+  ...mapActions(useDataStore, ["Projectlist","deleteProject","GetTasksByProjectId",'deleteTask']),
     async DeleteFun() {
-      console.log(this.ProjectId);
+      if(this.POT == "Project"){
       
         let sccuss= await this.deleteProject(this.ProjectId)
-        await this.Projectlist()
-        this.$emit('close')
+        if(sccuss) {
+          await this.Projectlist()
+          this.$emit('close','Project Delete successfully')
+        } else {
+          this.$emit('close','Project Delete Deined')
+        }
+      }
+      else {
+      
+        let sccuss= await this.deleteTask(this.TaskId)
+        if(sccuss) {
+          await this.GetTasksByProjectId(this.ProjectId)
+          
+          this.$emit('close','Task Delete successfully')
+
+        } else {
+          this.$emit('close','Task Delete Deined')
+        }
+      }
     },
  },
  computed: {
-    ...mapState(useDataStore, ["ProjectManag"]),
  }
 }
 
