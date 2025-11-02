@@ -105,6 +105,7 @@ export const useDataStore = defineStore('project', {
                     },
                 })
                 this.GetTasksProject = await res.json()
+                console.log('GetTasksProject: ', projectId);
                 console.log('GetTasksProject: ', this.GetTasksProject);
                 if(this.GetTasksProject[0].id) return this.GetTasksProject
                 else return false

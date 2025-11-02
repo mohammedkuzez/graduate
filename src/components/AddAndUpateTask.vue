@@ -20,6 +20,7 @@ export default {
       },
       selectNumber: 0,
       defaultselect: 'To Do',
+      selectedTask: this.TaskSelect || 'To Do',
       currentDate: new Date().toISOString().split('T')[0],
       ActiveOrINAtive: 'Inactive',
       userId: localStorage.getItem('userId')
@@ -30,20 +31,26 @@ export default {
 
     async save(values) {
 
-        this.selectNumber = this.FindSelect()
-
-        this.Task = { ...values }
         
+        this.Task = { ...values, state: this.selectedTask }
+        
+        this.selectNumber = this.FindSelect()
         if(this.TaskName){
           await this.updateTask(this.TaskId,this.Task.name,this.Task.description,this.Task.startDate,this.Task.endDate,Number(this.userId),this.selectNumber)
           await this.GetTasksByProjectId(this.ProjectID)
+          this.$emit('update:modelValue', false);
           this.$emit('close','Task update successfully')
           
         }
         else {
-          await this.createTask(this.Task.name,this.Task.description,this.Task.startDate,this.Task.endDate,Number(this.ProjectID),Number(this.userId),this.selectNumber)
-          await this.GetTasksByProjectId(this.ProjectID)
-          this.$emit('close','Task add successfully')
+            console.log(this.selectedTask);
+            console.log(this.Task.state);
+            console.log(this.selectNumber);
+            
+            await this.createTask(this.Task.name,this.Task.description,this.Task.startDate,this.Task.endDate,Number(this.ProjectID),Number(this.userId),this.selectNumber)
+            await this.GetTasksByProjectId(this.ProjectID)
+            this.$emit('update:modelValue', false);
+            this.$emit('close','Task add successfully')
         }
       },
       FindSelect() {
@@ -134,7 +141,7 @@ defineRule('NotCrossProjectDate', function(value, [ProjectDue]) {
         </Field>
         <Field name="state">
         <v-select
-            v-model="Task.state" 
+            v-model="selectedTask" 
             :label="$t('ProjectTasks.TaskState')"
             :items="['To DO', 'In Progress', 'In Review', 'Done']"
         ></v-select>

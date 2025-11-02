@@ -76,5 +76,5 @@ export default {
     :update="false"
     @close="handleClose"
   ></AddAndUpateProject>
-    <template><Snackbar v-model="Snackbar" :Message="message"></Snackbar></template>
+    <template><Snackbar v-if="message" v-model="Snackbar" :Message="message"></Snackbar></template>
 </template>

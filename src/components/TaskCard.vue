@@ -11,8 +11,9 @@ export default {
     return {
       activeDialogDelete: false,
       activeDialogEdit: false,
-      activeOwner: false
+      activeOwner: false,
     };
+    
   },
   methods: {
     ...mapActions(useDataStore, ['GetProjectName']),
@@ -24,8 +25,7 @@ export default {
       
     },
     GoToTaskDeitals() {
-      localStorage.setItem('ProjectId', this.TaskProps.id)
-      this.$router.push(`/Home/${this.TaskProps.id}`);
+    //   this.$router.push(`/Home/${this.TaskProps.id}`);
     },
     handleClose(message) {
       this.activeDialogEdit = false
@@ -66,7 +66,7 @@ export default {
 <template>
   <v-card
     @click="GoToTaskDeitals"
-    class="bg-white p-5 rounded-md shadow hover:shadow-lg transition pa-4"
+    class="bg-white p-5 rounded-md shadow hover:shadow-lg transition pa-4 cursor-move"
   >
     <h3 class="text-xl font-semibold py-3 text-truncate">{{ TaskProps.name }}</h3>
     <p class="text-blue-grey-darken-1 py-5 h-100 text-body-2 text-truncate">
@@ -88,7 +88,7 @@ export default {
     </v-card-actions>
     <Delete
       v-model="activeDialogDelete"
-      @me="deleteClose"
+      @close="deleteClose"
       :TaskId="TaskProps.id"
       :ProjectId="ProjectID"
       :Name="TaskProps.name"
@@ -108,3 +108,5 @@ export default {
     </AddAndUpateTask>
   </v-card>
 </template>
+
+
