@@ -68,7 +68,7 @@ export default {
     @click="GoToTaskDeitals"
     class="bg-white p-5 rounded-md shadow hover:shadow-lg transition pa-4"
   >
-    <h3 class="text-xl font-semibold py-3">{{ TaskProps.name }}</h3>
+    <h3 class="text-xl font-semibold py-3 text-truncate">{{ TaskProps.name }}</h3>
     <p class="text-blue-grey-darken-1 py-5 h-100 text-body-2 text-truncate">
       {{ TaskProps.description }}
     </p>
