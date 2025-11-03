@@ -11,20 +11,26 @@ export default {
     return {
       activeDialogDelete: false,
       activeDialogEdit: false,
-      activeOwner: false
+      activeOwner: false,
+      loading: false,
+      loading2: false,
     };
   },
   methods: {
     ...mapActions(useDataStore, ['AccesptInvitation','GetInvitations','RejectInvitation']),
     async activeDelete() {
+        this.loading2 = true
         await this.RejectInvitation(this.ProjectProps.id)
         await this.GetInvitations()
+        this.loading2 = false
         this.$emit('DeleteMessage', 'Your Reject Send successfully')
     },
     async activeEdit() {
-      await this.AccesptInvitation(this.ProjectProps.id)
-      await this.GetInvitations()
-      console.log(this.ProjectProps);
+        this.loading = true
+        await this.AccesptInvitation(this.ProjectProps.id)
+        await this.GetInvitations()
+        console.log(this.ProjectProps);
+        this.loading = false
       this.$emit('UpdateMessage', 'Your Accespt Send successfully')
     },
     handleClose(message) {
@@ -74,8 +80,8 @@ export default {
     </p>
 
     <v-card-actions class="justify-center">
-      <v-btn @click="activeEdit" class="bg-warning w-50">{{ $t("accept") }}</v-btn>
-      <v-btn @click="activeDelete" class="bg-red-accent-4 w-50">{{ $t("reject") }}</v-btn>
+      <v-btn @click="activeEdit" class="bg-warning w-50" :loading="loading" variant="text">{{ $t("accept") }}</v-btn>
+      <v-btn @click="activeDelete" class="bg-red-accent-4 w-50" :loading="loading2" variant="text">{{ $t("reject") }}</v-btn>
     </v-card-actions>
   </v-card>
 </template>

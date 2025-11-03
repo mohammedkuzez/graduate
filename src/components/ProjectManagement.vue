@@ -13,7 +13,8 @@ export default {
       activeDialog: false,
       Snackbar: false,
       SnackbUpdate: false,
-      message: ''
+      message: '',
+      loader: false,
     };
   },
   components: {
@@ -43,10 +44,14 @@ export default {
       this.Snackbar = true
       this.message = message
     },
-
+    async fun() {
+      this.loader = true
+      await this.Projectlist()
+      this.loader = false
+    }
   },
   async mounted() {
-    await this.Projectlist()
+    await this.fun()
   }
 };
 </script>
@@ -59,17 +64,31 @@ export default {
     }}</v-btn>
   </div>
   <v-container fluid>
-    <v-row>
+  <v-row>
+    
+    <template v-if="loader">
+      <v-col v-for="n in 6" :key="n" cols="12" sm="6" md="4">
+        <v-skeleton-loader type="card" elevation="5" color="blue-grey-lighten-1" />
+      </v-col>
+    </template>
+
+    <template v-else>
       <v-col
         v-for="project in ProjectManag"
-        :key="project.name"
+        :key="project.id || project.name"
         cols="12"
         sm="6"
         md="4"
       >
-        <ProjectCard :ProjectProps="project" @UpdateMessage="SnackbarUpdate" @DeleteMessage="SnackbarDelete" />
+        <ProjectCard
+          :ProjectProps="project"
+          @UpdateMessage="SnackbarUpdate"
+          @DeleteMessage="SnackbarDelete"
+        />
       </v-col>
-    </v-row>
+    </template>
+
+  </v-row>
   </v-container>
   <AddAndUpateProject
     v-if="activeDialog"

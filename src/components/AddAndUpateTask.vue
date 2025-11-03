@@ -17,7 +17,8 @@ export default {
         state: '',
         startDate: '',
         endDate: '',
-      },
+    },
+      loading: false,
       selectNumber: 0,
       defaultselect: 'To Do',
       selectedTask: this.TaskSelect || 'To Do',
@@ -30,17 +31,18 @@ export default {
     ...mapActions(useDataStore, ['createTask','GetTasksByProjectId','updateTask']),
 
     async save(values) {
-
+        this.loading = true
         
         this.Task = { ...values, state: this.selectedTask }
         
         this.selectNumber = this.FindSelect()
         if(this.TaskName){
-          await this.updateTask(this.TaskId,this.Task.name,this.Task.description,this.Task.startDate,this.Task.endDate,Number(this.userId),this.selectNumber)
-          await this.GetTasksByProjectId(this.ProjectID)
-          this.$emit('update:modelValue', false);
-          this.$emit('close','Task update successfully')
-          
+            await this.updateTask(this.TaskId,this.Task.name,this.Task.description,this.Task.startDate,this.Task.endDate,Number(this.userId),this.selectNumber)
+            await this.GetTasksByProjectId(this.ProjectID)
+            this.loading = false
+            this.$emit('update:modelValue', false);
+            this.$emit('close','Task update successfully')
+            
         }
         else {
             console.log(this.selectedTask);
@@ -49,6 +51,7 @@ export default {
             
             await this.createTask(this.Task.name,this.Task.description,this.Task.startDate,this.Task.endDate,Number(this.ProjectID),Number(this.userId),this.selectNumber)
             await this.GetTasksByProjectId(this.ProjectID)
+            this.loading = false
             this.$emit('update:modelValue', false);
             this.$emit('close','Task add successfully')
         }
@@ -183,7 +186,7 @@ defineRule('NotCrossProjectDate', function(value, [ProjectDue]) {
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="error" text @click="$emit('close')">{{$t('cancel')}}</v-btn>
-        <v-btn color="secondary" text type="submit">{{$t('save')}}</v-btn>
+        <v-btn color="secondary" text type="submit" :loading="loading" variant="text">{{$t('save')}}</v-btn>
       </v-card-actions>
       </Form>
     </v-card>

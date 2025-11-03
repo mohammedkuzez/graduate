@@ -15,6 +15,7 @@ export default {
       activeAddingTask: false,
       Snackbar: false,
       message: "",
+      loader: false,
       board: {
         1: [],
         2: [],
@@ -36,13 +37,14 @@ export default {
     ...mapActions(useDataStore, ["GetTasksByProjectId", "GetProjectById", "updateTask","updateStatus"]),
 
     async GetData() {
+      this.loader = true;
       await this.GetTasksByProjectId(this.Projectid);
       await this.GetProjectById(this.Projectid);
       console.log('GetTasksProject2:', this.GetTasksProject);
       
       if (this.GetTasksProject && this.GetTasksProject.length > 0) {
         this.ProjectName = this.GetTasksProject[0].project?.name || "Unnamed Project";
-
+        
         
         this.board[1] = this.GetTasksProject.filter((Task) => Task.status.name === "To Do");
         this.board[2] = this.GetTasksProject.filter((Task) => Task.status.name === "In Progress");
@@ -52,6 +54,7 @@ export default {
         console.log('board[2]:', this.board[2]);
         console.log('board[3]:', this.board[3]);
         console.log('board[4]:', this.board[4]);
+        this.loader = false;
       }
     },
 
@@ -131,7 +134,15 @@ async onMove(evt, newColumnId) {
         >
           <v-card class="pa-3 bg-blue-grey-lighten-2" elevation="3" rounded="lg">
             <h3 class="text-center text-subtitle-1 font-medium mb-4">{{ col.title }}</h3>
-
+                <template v-if="loader">
+                  <v-skeleton-loader
+                    v-for="i in 3"
+                    :key="i"
+                    type="list-item-two-line"
+                    class="mb-3"
+                  />
+                </template>
+                <template v-else>
             <draggable 
               v-model="board[col.id]"
               group="tasks"
@@ -165,6 +176,7 @@ async onMove(evt, newColumnId) {
                 </v-sheet>
               </template>
             </draggable>
+            </template>
           </v-card>
         </v-col>
       </v-row>

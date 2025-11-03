@@ -15,6 +15,7 @@ export default {
         email: '',
         Project: '',
       },
+      loading: false,
       ProjcetId: 0,
       projectsName: [],
       userId: localStorage.getItem('userId')
@@ -24,6 +25,7 @@ export default {
     ...mapActions(useDataStore, ['SendInvitation']),
     
     async save(values) {
+        this.loading = true
         this.Invitation = { ...values }
         console.log(this.Invitation);
         this.ProjcetId = (this.ProjectManag.filter(Project => Project.name == this.Invitation.Project))[0].id
@@ -31,8 +33,10 @@ export default {
         console.log('ProjectId: ', this.ProjcetId);
         let sccuss = await this.SendInvitation(this.Invitation.email,this.ProjcetId)
         if(sccuss) {
+            this.loading = false
             this.$emit('close','Send Invitation successfully')
         } else {
+            this.loading = false
             this.$emit('close','Send Invitation Denied')
         }
         
@@ -99,7 +103,7 @@ defineRule('email', email)
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="error" text @click="$emit('close')">{{$t('cancel')}}</v-btn>
-        <v-btn color="secondary" text type="submit">{{$t('send')}}</v-btn>
+        <v-btn color="secondary" text type="submit" :loading="loading" variant="text">{{$t('send')}}</v-btn>
       </v-card-actions>
       </Form>
     </v-card>

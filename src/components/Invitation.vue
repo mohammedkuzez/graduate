@@ -16,6 +16,8 @@ export default {
       SnackbUpdate: false,
       message: '',
       allInvitations: [],
+      PENDING: [],
+      loader: false,
     };
   },
   components: {
@@ -47,9 +49,13 @@ export default {
       this.message = message
     },
     async GetInvitationsfun() {
+      this.loader = true
+      
       await this.Projectlist()
-      this.allInvitations = await this.GetInvitations()
-
+      await this.GetInvitations()
+      this.loader = false
+      
+    
     }
 
   },
@@ -68,15 +74,22 @@ export default {
   </div>
   <v-container fluid>
     <v-row>
-      <v-col
+      <template v-if="loader">
+        <v-col v-for="n in 6" :key="n" cols="12" sm="6" md="4">
+          <v-skeleton-loader type="card" elevation="5" color="blue-grey-lighten-1" />
+        </v-col>
+      </template>
+      <template v-else>
+        <v-col
         v-for="Invitation in getInvitations"
         :key="Invitation.id"
         cols="12"
         sm="6"
         md="4"
-      >
+        >
         <InvitationCard :ProjectProps="Invitation" @UpdateMessage="SnackbarUpdate" @DeleteMessage="SnackbarDelete" />
       </v-col>
+    </template>
     </v-row>
   </v-container>
   <AddInvitation

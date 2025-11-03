@@ -17,6 +17,7 @@ export default {
         state: false,
         dueDate: '',
       },
+      loading: false,
       currentDate: new Date().toISOString().split('T')[0],
       ActiveOrINAtive: 'Inactive',
     };
@@ -25,19 +26,21 @@ export default {
     ...mapActions(useDataStore, ["Projectlist",'createProject','updateProject']),
 
     async save(values) {
-
-        this.Project = { ...values, state: this.Project.state }
+      this.loading = true
+      this.Project = { ...values, state: this.Project.state }
+      
+      if(this.ProjectName){
+        console.log(this.ProjectId);
+        await this.updateProject(this.ProjectId,this.Project.name,this.Project.description,this.Project.dueDate)
+        await this.Projectlist()
+        this.loading = false
+        this.$emit('close','Project Update successfully')
         
-        if(this.ProjectName){
-          console.log(this.ProjectId);
-          await this.updateProject(this.ProjectId,this.Project.name,this.Project.description,this.Project.dueDate)
-          await this.Projectlist()
-          this.$emit('close','Project Update successfully')
-          
-        }
-        else {
-          await this.createProject(this.Project.name,this.Project.description,this.Project.dueDate)
-          await this.Projectlist()
+      }
+      else {
+        await this.createProject(this.Project.name,this.Project.description,this.Project.dueDate)
+        await this.Projectlist()
+        this.loading = false
           this.$emit('close','Project Add successfully')
         }
       },
@@ -133,7 +136,7 @@ defineRule('FutureDate', function(value, [today]) {
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="error" text @click="$emit('close')">{{$t('cancel')}}</v-btn>
-        <v-btn color="secondary" text type="submit">{{$t('save')}}</v-btn>
+        <v-btn color="secondary" text type="submit" :loading="loading" variant="text">{{$t('save')}}</v-btn>
       </v-card-actions>
       </Form>
     </v-card>

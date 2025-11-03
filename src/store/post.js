@@ -219,6 +219,7 @@ export const useDataStore = defineStore('project', {
                         },
                 })
                 this.getInvitations = await res.json()
+                this.getInvitations = this.getInvitations.filter(object => object.status === 'PENDING');
                 console.log('getInvitations: ', this.getInvitations);
                 if(this.getInvitations.id) return true
                 else return false

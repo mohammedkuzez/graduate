@@ -4,28 +4,38 @@ import { mapState, mapActions } from "pinia";
 
 export default {
     props: ['ProjectId','TaskId','Name','POT'],
+    data(){
+      return {
+        loading: false
+      }
+    },
  methods: {
   ...mapActions(useDataStore, ["Projectlist","deleteProject","GetTasksByProjectId",'deleteTask']),
     async DeleteFun() {
+      this.loading = true
       if(this.POT == "Project"){
-      
+        
         let sccuss= await this.deleteProject(this.ProjectId)
         if(sccuss) {
           await this.Projectlist()
+          this.loading = false
           this.$emit('close','Project Delete successfully')
         } else {
+          this.loading = false
           this.$emit('close','Project Delete Deined')
         }
       }
       else {
-      
+        
         let sccuss= await this.deleteTask(this.TaskId)
         if(sccuss) {
           await this.GetTasksByProjectId(this.ProjectId)
           
+          this.loading = false
           this.$emit('close','Task Delete successfully')
-
+          
         } else {
+          this.loading = false
           this.$emit('close','Task Delete Deined')
         }
       }
@@ -52,7 +62,7 @@ export default {
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="primary" text @click="$emit('close')">Cancel</v-btn>
-        <v-btn @click="DeleteFun" color="red" text>Delete</v-btn>
+        <v-btn @click="DeleteFun" color="red" text :loading="loading" variant="text">Delete</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
