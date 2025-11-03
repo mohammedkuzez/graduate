@@ -264,7 +264,7 @@ export const useDataStore = defineStore('project', {
         },
         async DashboardCharts() {
             try {
-                const res = await fetch(`http://localhost:3000/api#/statistics/StatisticsController_getStatistics`, {
+                const res = await fetch(`https://project-management-barakah.vercel.app/statistics`, {
                     method: "GET",
                     headers: {
                         Authorization:
@@ -272,7 +272,7 @@ export const useDataStore = defineStore('project', {
                             'Content-Type': 'application/json',
                         },
                 })
-                let Dashboard = await res
+                let Dashboard = await res.json()
                 console.log('Dashboard: ', Dashboard);
                 if(Dashboard.id) return true
                 else return false
