@@ -265,14 +265,14 @@ export const useDataStore = defineStore('project', {
         async DashboardCharts() {
             try {
                 const res = await fetch(`http://localhost:3000/api#/statistics/StatisticsController_getStatistics`, {
-                    method: "PATCH",
+                    method: "GET",
                     headers: {
                         Authorization:
                             `Bearer ${this.token}`,
                             'Content-Type': 'application/json',
                         },
                 })
-                let Dashboard = await res.json()
+                let Dashboard = await res
                 console.log('Dashboard: ', Dashboard);
                 if(Dashboard.id) return true
                 else return false
