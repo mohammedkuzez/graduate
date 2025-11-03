@@ -39,7 +39,7 @@ export default {
     <v-card>
       <!-- Card Title -->
       <v-card-title class="headline grey lighten-2" >
-        {{ TaskProps.name }}
+        {{'Task: ' + TaskProps.name }}
       </v-card-title>
 
       <v-card-text>
@@ -109,7 +109,7 @@ export default {
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="error" text @click="$emit('close')">
-          {{$t('cancel')}}
+          {{$t('close')}}
         </v-btn>
       </v-card-actions>
     </v-card>

@@ -116,7 +116,7 @@ export default {
       <DetailsTask
     v-if="activeDialog"
     :update="false"
-    @close="handleClose"
+    @close="activeDialog = false"
     :TaskProps="TaskProps"
   ></DetailsTask>
   </v-card>
