@@ -75,6 +75,11 @@ export default {
         createDate: "تاريخ الإنشاء",
 
     },
+    Dashboard: {
+        totalProjects: "عدد المشاريع الكلي",
+        totalTasks: "عدد المهام الكلي",
+        YourStatus: "إحصائياتك",
+    },
     save: 'حفظ',
     cancel: 'إلغاء',
     send: 'إرسال',

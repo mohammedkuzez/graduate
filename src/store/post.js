@@ -274,7 +274,7 @@ export const useDataStore = defineStore('project', {
                 })
                 let Dashboard = await res.json()
                 console.log('Dashboard: ', Dashboard);
-                if(Dashboard.id) return true
+                if(Dashboard.totalProjects) return Dashboard
                 else return false
             } catch (error) {
                 console.log(error)

@@ -72,6 +72,11 @@ export default {
         senderEmail: 'Sender Email',
         createDate: "Create Date",
     },
+    Dashboard: {
+        totalProjects: "Total Projects",
+        totalTasks: "Total Tasks",
+        YourStatus: 'Your Status',
+    },
     save: 'Save',
     cancel: 'Cancel',
     send: 'Send',
