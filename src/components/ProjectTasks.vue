@@ -117,12 +117,17 @@ async onMove(evt, newColumnId) {
   </div>
     
  <v-container fluid class="pa-0">
-      <v-row style="flex-wrap: nowrap; overflow-x: auto;" dense>
+      <v-row class="flex-wrap">
         <v-col
           v-for="col in columns"
           :key="col.id"
-          class="flex-shrink-0"
-          style="width: 300px;"
+          class="flex-shrink-0 "
+          xs="12"
+          sm="6"
+          md="4"
+          lg="3"
+          xl="2"
+          
         >
           <v-card class="pa-3 bg-blue-grey-lighten-2" elevation="3" rounded="lg">
             <h3 class="text-center text-subtitle-1 font-medium mb-4">{{ col.title }}</h3>
