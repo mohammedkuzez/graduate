@@ -9,6 +9,7 @@ import Dashboard from '@/components/Dashboard.vue'
 import Invitation from '@/components/Invitation.vue'
 import NotFoundView from '@/components/NotFoundView.vue'
 import ProjectTasks from '@/components/ProjectTasks.vue'
+import DetailsTask from '@/components/DetailsTask.vue'
 
 
 
@@ -30,7 +31,9 @@ const routes = [
             { path: 'Project_Management',name: 'Project Management',component: ProjectManagement },
             { path: 'Dashboard',name: 'Dashboard',component: Dashboard },
             { path: 'Invitation',name: 'Invitation',component: Invitation },
-            { path: ':ProjectId',name: 'Project Tasks',component: ProjectTasks },
+            { path: ':ProjectId',name: 'Project Tasks',component: ProjectTasks, children: [
+                { path: ':TaskId',name: 'Task Details',component: DetailsTask },
+         ] },
         ]
     },
     {

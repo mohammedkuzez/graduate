@@ -85,6 +85,7 @@ export default {
     send: 'إرسال',
     accept: 'قبول',
     reject: 'رفض',
+    ReadMore: 'إقراء المزيد',
     $vuetify: {
         ...ar,
     }

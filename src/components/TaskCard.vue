@@ -4,6 +4,7 @@ import { mapState, mapActions } from 'pinia';
 import { useDataStore } from '@/store/post'
 import Delete from "./Delete.vue";
 import AddAndUpateTask from "./AddAndUpateTask.vue";
+import DetailsTask from "./DetailsTask.vue";
 export default {
   props: ['TaskProps','ProjectID','ProjectDueDate'],
   emits: ['UpdateMessage', 'DeleteMessage'],
@@ -11,6 +12,7 @@ export default {
     return {
       activeDialogDelete: false,
       activeDialogEdit: false,
+      activeDialog: false,
       activeOwner: false,
     };
     
@@ -25,7 +27,8 @@ export default {
       
     },
     GoToTaskDeitals() {
-    //   this.$router.push(`/Home/${this.TaskProps.id}`);
+        this.activeDialog = true
+      this.$router.push(`/Home/${this.TaskProps.project.id}/${this.TaskProps.id}`);
     },
     handleClose(message) {
       this.activeDialogEdit = false
@@ -51,14 +54,18 @@ export default {
   mounted() {
     if(this.TaskProps.creator.id == this.userId) {
       this.activeOwner = true
+      console.log(this.TaskProps);
+      
     }
     else {
+        console.log(this.TaskProps);
 
     }
   },
   components: {
     Delete,
     AddAndUpateTask,
+    DetailsTask
   },
 };
 </script>
@@ -106,6 +113,12 @@ export default {
       :TaskStartDate="TaskProps.startDate"
       :TaskEndDate="TaskProps.endDate">
     </AddAndUpateTask>
+      <DetailsTask
+    v-if="activeDialog"
+    :update="false"
+    @close="handleClose"
+    :TaskProps="TaskProps"
+  ></DetailsTask>
   </v-card>
 </template>
 
