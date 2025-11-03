@@ -66,20 +66,20 @@ export default {
         edit: 'تعديل',
         delete: 'حذف',
     },
-    title: 'بلوغي',
-    subtitle: 'أكثر المقالات قيمة',
-    articlesTitle: 'المقالات 2',
-    articlesSubtitle: 'قائمة المقالات',
-    id: 'المعرف',
-    titleCol: 'العنوان',
-    tagsCol: 'العلامات',
-    reactionsCol: 'التفاعلات',
-    bodyCol: 'المحتوى',
-    articles: {
-        title: 'المقالات',
-        subtitle: 'قائمة المقالات',
+    Invitation: {
+        Invitation: "الدعوات",
+        NewInvitation: 'إضافة دعوة',
+        addingInvitation: 'تضيف دعوة',
+        senderName: 'أسم المرسل',
+        senderEmail: 'عنوان البريد الالكتروني للمرسل',
+        createDate: "تاريخ الإنشاء",
+
     },
-    
+    save: 'حفظ',
+    cancel: 'إلغاء',
+    send: 'إرسال',
+    accept: 'قبول',
+    reject: 'رفض',
     $vuetify: {
         ...ar,
     }

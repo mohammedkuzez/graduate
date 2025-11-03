@@ -1,3 +1,4 @@
+import Dashboard from '@/components/Dashboard.vue';
 import { defineStore } from 'pinia'
 
 export const useDataStore = defineStore('project', {
@@ -13,6 +14,7 @@ export const useDataStore = defineStore('project', {
         ProjectName: '',
         ProjectDate: '',
         GetTasksProject: {},
+        getInvitations: [],
     }),
     actions: {
         async Projectlist() {
@@ -183,6 +185,97 @@ export const useDataStore = defineStore('project', {
                 let UpdateTask = await res.json()
                 console.log('UpdateTask: ', UpdateTask);
                 return true
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async SendInvitation(receiverEmail,projectId) {
+            try {
+                const res = await fetch(`https://project-management-barakah.vercel.app/invitations`, {
+                    method: "POST",
+                    body: JSON.stringify({ receiverEmail,projectId }),
+                    headers: {
+                        Authorization:
+                            `Bearer ${this.token}`,
+                            'Content-Type': 'application/json',
+                        },
+                })
+                let sendInvitation = await res.json()
+                console.log('sendInvitation: ', sendInvitation);
+                if(sendInvitation.id) return sendInvitation
+                else return false
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async GetInvitations() {
+            try {
+                const res = await fetch(`https://project-management-barakah.vercel.app/invitations`, {
+                    method: "GET",
+                    headers: {
+                        Authorization:
+                            `Bearer ${this.token}`,
+                            'Content-Type': 'application/json',
+                        },
+                })
+                this.getInvitations = await res.json()
+                console.log('getInvitations: ', this.getInvitations);
+                if(this.getInvitations.id) return true
+                else return false
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async AccesptInvitation(id) {
+            try {
+                const res = await fetch(`https://project-management-barakah.vercel.app/invitations/${id}/approve`, {
+                    method: "PATCH",
+                    headers: {
+                        Authorization:
+                            `Bearer ${this.token}`,
+                            'Content-Type': 'application/json',
+                        },
+                })
+                let accesptInvitation = await res.json()
+                console.log('accesptInvitation: ', accesptInvitation);
+                if(accesptInvitation.id) return true
+                else return false
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async RejectInvitation(id) {
+            try {
+                const res = await fetch(`https://project-management-barakah.vercel.app/invitations/${id}/reject`, {
+                    method: "PATCH",
+                    headers: {
+                        Authorization:
+                            `Bearer ${this.token}`,
+                            'Content-Type': 'application/json',
+                        },
+                })
+                let rejectInvitation = await res.json()
+                console.log('rejectInvitation: ', rejectInvitation);
+                if(rejectInvitation.id) return true
+                else return false
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async DashboardCharts() {
+            try {
+                const res = await fetch(`http://localhost:3000/api#/statistics/StatisticsController_getStatistics`, {
+                    method: "PATCH",
+                    headers: {
+                        Authorization:
+                            `Bearer ${this.token}`,
+                            'Content-Type': 'application/json',
+                        },
+                })
+                let Dashboard = await res.json()
+                console.log('Dashboard: ', Dashboard);
+                if(Dashboard.id) return true
+                else return false
             } catch (error) {
                 console.log(error)
             }

@@ -64,23 +64,19 @@ export default {
         edit: 'Edit',
         delete: 'Delete',
     },
-    
-    title: 'Bloggy',
-    subtitle: 'Most Valuable Articles',
-    // articlesTitle: 'Articles',
-    // articlesSubtitle: 'List of articles',
-    id: 'ID',
-    titleCol: 'Title',
-    tagsCol: 'Tags',
-    reactionsCol: 'Reactions',
-    bodyCol: 'Content',
-
-
-    articles: {
-        title: 'Articles',
-        subtitle: 'List of articles',
+    Invitation: {
+        Invitation: "Invitation",
+        NewInvitation: '+ New Invitation',
+        addingInvitation: 'Adding Invitation',
+        senderName: 'Sender Name',
+        senderEmail: 'Sender Email',
+        createDate: "Create Date",
     },
-    
+    save: 'Save',
+    cancel: 'Cancel',
+    send: 'Send',
+    accept: 'Accept',
+    reject: 'Reject',
     $vuetify: {
         ...en,
     }

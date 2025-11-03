@@ -132,8 +132,8 @@ defineRule('FutureDate', function(value, [today]) {
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="error" text @click="$emit('close')">Cancel</v-btn>
-        <v-btn color="secondary" text type="submit">Save</v-btn>
+        <v-btn color="error" text @click="$emit('close')">{{$t('cancel')}}</v-btn>
+        <v-btn color="secondary" text type="submit">{{$t('save')}}</v-btn>
       </v-card-actions>
       </Form>
     </v-card>
