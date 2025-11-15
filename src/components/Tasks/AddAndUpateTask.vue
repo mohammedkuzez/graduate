@@ -146,7 +146,7 @@ defineRule('NotCrossProjectDate', function(value, [ProjectDue]) {
         <v-select
             v-model="selectedTask" 
             :label="$t('ProjectTasks.TaskState')"
-            :items="['To DO', 'In Progress', 'In Review', 'Done']"
+            :items="['To Do', 'In Progress', 'In Review', 'Done']"
         ></v-select>
         </Field>
         <Field 

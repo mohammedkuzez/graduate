@@ -114,7 +114,6 @@ export default {
         newStatusId
       );
 
-      await this.GetData();
     },
   },
   async mounted() {
