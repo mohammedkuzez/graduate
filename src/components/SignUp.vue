@@ -183,6 +183,16 @@ defineRule('confirmed', (value, [target]) => {
         {{ $t('signUp.signUp') }}
       </v-btn>
       </Form>
+        <v-card-text class="text-center">
+        <a
+          class="text-blue text-decoration-none"
+          href="/Login"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          {{ $t('signUp.logInNow') }} <v-icon icon="mdi-chevron-right"></v-icon>
+        </a>
+      </v-card-text>
     </v-card>
   </div>
   </v-container>

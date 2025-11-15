@@ -13,6 +13,7 @@ export default {
         account: 'الحساب',
         signUp: 'إنشاء حساب جديد',
         logIn: 'تسجيل الدخول',
+        logInNow: 'تسجيل الدخول الآن',
         signUpNow: 'إنشاء حساب جديد الآن',
         forgotPassword: 'هل نسيت كبمة المرور'
     },
