@@ -149,6 +149,7 @@ async onMove(evt, newColumnId) {
               item-key="id"
               animation="200"
               @change="(evt) => onMove(evt, col.id)"
+              :filter="'.no-drag'"
               :fallbackOnBody="true"
               :emptyInsertThreshold="5"
             >

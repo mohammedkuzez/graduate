@@ -90,8 +90,8 @@ export default {
       </p>
     </div>
     <v-card-actions class="justify-center">
-      <v-btn @touchstart.stop @mousedown.stop @click.stop="activeEdit" v-if="activeOwner" class="bg-warning w-50">{{ $t("ProjectTasks.edit") }}</v-btn>
-      <v-btn @touchstart.stop @mousedown.stop @click.stop="activeDelete" v-if="activeOwner" class="bg-red-accent-4 w-50">{{ $t("ProjectTasks.delete") }}</v-btn>
+      <v-btn @touchstart.stop @mousedown.stop @click.stop="activeEdit" v-if="activeOwner" class="no-drag bg-warning w-50">{{ $t("ProjectTasks.edit") }}</v-btn>
+      <v-btn @touchstart.stop @mousedown.stop @click.stop="activeDelete" v-if="activeOwner" class="no-drag bg-red-accent-4 w-50">{{ $t("ProjectTasks.delete") }}</v-btn>
     </v-card-actions>
     <Delete
       v-model="activeDialogDelete"
