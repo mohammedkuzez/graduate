@@ -83,7 +83,6 @@ export default {
     SnackbarUpdate(message) {
       this.Snackbar = true;
       this.message = message;
-      this.GetData();
     },
 
     SnackbarDelete(message) {
@@ -114,6 +113,7 @@ export default {
         newStatusId
       );
 
+      
     },
   },
   async mounted() {
