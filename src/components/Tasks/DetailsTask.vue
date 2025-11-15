@@ -3,7 +3,7 @@ import { Field, Form, defineRule } from 'vee-validate'
 import { required, email, min } from '@vee-validate/rules'
 import { useDataStore } from '@/store/post'
 import { mapState, mapActions } from 'pinia';
-import Snackbar from './Snackbar.vue';
+import Snackbar from '../Genral/Snackbar.vue';
 
 
 export default {

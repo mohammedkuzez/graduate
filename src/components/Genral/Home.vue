@@ -92,7 +92,7 @@ export default {
 
 
         <v-main>
-            <v-container class="px-0">
+            <v-container>
                 <RouterView />
             </v-container>
         </v-main>

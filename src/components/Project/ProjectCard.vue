@@ -1,47 +1,44 @@
 <script>
 import { RouterLink } from "vue-router";
-import { mapState, mapActions } from 'pinia';
-import { useDataStore } from '@/store/post'
-import Delete from "./Delete.vue";
+import { mapState, mapActions } from "pinia";
+import { useDataStore } from "@/store/post";
+import Delete from "../Genral/Delete.vue";
 import AddAndUpateProject from "./AddAndUpateProject.vue";
 export default {
-  props: ['ProjectProps'],
-  emits: ['UpdateMessage', 'DeleteMessage'],
+  props: ["ProjectProps"],
+  emits: ["UpdateMessage", "DeleteMessage"],
   data() {
     return {
       activeDialogDelete: false,
       activeDialogEdit: false,
-      activeOwner: false
+      activeOwner: false,
     };
   },
   methods: {
-    ...mapActions(useDataStore, ['GetProjectName']),
+    ...mapActions(useDataStore, ["GetProjectName"]),
     activeDelete() {
       this.activeDialogDelete = true;
     },
     activeEdit() {
-      this.activeDialogEdit = true
+      this.activeDialogEdit = true;
       console.log(this.ProjectProps);
-      
     },
     GoToTasks() {
-      localStorage.setItem('ProjectId', this.ProjectProps.id)
+      localStorage.setItem("ProjectId", this.ProjectProps.id);
       this.$router.push(`/Home/${this.ProjectProps.id}`);
     },
     handleClose(message) {
-      this.activeDialogEdit = false
-      this.$emit('UpdateMessage', message)
-
+      this.activeDialogEdit = false;
+      this.$emit("UpdateMessage", message);
     },
     deleteClose(message) {
-      this.activeDialogDelete = false 
-      console.log('ProjectCard: ' , message);
-      this.$emit('DeleteMessage', message)
-      
-    }
+      this.activeDialogDelete = false;
+      console.log("ProjectCard: ", message);
+      this.$emit("DeleteMessage", message);
+    },
   },
   computed: {
-    ...mapState(useDataStore, ['userId']),
+    ...mapState(useDataStore, ["userId"]),
     NOPinsideProject() {
       return (this.ProjectProps.assignedUsers?.length || 0) + 1;
     },
@@ -50,11 +47,9 @@ export default {
     },
   },
   mounted() {
-    if(this.ProjectProps.creator.id == this.userId) {
-      this.activeOwner = true
-    }
-    else {
-
+    if (this.ProjectProps.creator.id == this.userId) {
+      this.activeOwner = true;
+    } else {
     }
   },
   components: {
@@ -69,7 +64,9 @@ export default {
     @click="GoToTasks"
     class="bg-white p-5 rounded-md shadow hover:shadow-lg transition pa-4"
   >
-    <h3 class="text-xl font-semibold py-3 text-truncate">{{ ProjectProps.name }}</h3>
+    <h3 class="text-xl font-semibold py-3 text-truncate">
+      {{ ProjectProps.name }}
+    </h3>
     <p class="text-blue-grey-darken-1 py-5 h-100 text-body-2 text-truncate">
       {{ ProjectProps.description }}
     </p>
@@ -84,8 +81,18 @@ export default {
       </p>
     </div>
     <v-card-actions class="justify-center">
-      <v-btn @click.stop="activeEdit" v-if="activeOwner" class="bg-warning w-50">{{ $t("projectManagement.edit") }}</v-btn>
-      <v-btn @click.stop="activeDelete" v-if="activeOwner" class="bg-red-accent-4 w-50">{{ $t("projectManagement.delete") }}</v-btn>
+      <v-btn
+        @click.stop="activeEdit"
+        v-if="activeOwner"
+        class="bg-warning w-50"
+        >{{ $t("projectManagement.edit") }}</v-btn
+      >
+      <v-btn
+        @click.stop="activeDelete"
+        v-if="activeOwner"
+        class="bg-red-accent-4 w-50"
+        >{{ $t("projectManagement.delete") }}</v-btn
+      >
     </v-card-actions>
     <Delete
       v-model="activeDialogDelete"
@@ -95,12 +102,13 @@ export default {
       POT="Project"
     ></Delete>
     <AddAndUpateProject
-      v-model="activeDialogEdit" 
+      v-model="activeDialogEdit"
       @close="handleClose"
-      :ProjectId="ProjectProps.id" 
-      :ProjectName="ProjectProps.name" 
-      :ProjectDescription="ProjectProps.description" 
-      :ProjectDate="ProjectProps.dueDate">
+      :ProjectId="ProjectProps.id"
+      :ProjectName="ProjectProps.name"
+      :ProjectDescription="ProjectProps.description"
+      :ProjectDate="ProjectProps.dueDate"
+    >
     </AddAndUpateProject>
   </v-card>
 </template>

@@ -4,8 +4,8 @@ import { required, email, min } from "@vee-validate/rules";
 import { useDataStore } from "@/store/post";
 import { mapState, mapActions } from "pinia";
 import AddInvitation from "./AddInvitation.vue";
-import ProjectCard from "./ProjectCard.vue";
-import Snackbar from "./Snackbar.vue";
+import ProjectCard from "../Project/ProjectCard.vue";
+import Snackbar from "../Genral/Snackbar.vue";
 import InvitationCard from "./InvitationCard.vue";
 
 export default {
