@@ -15,7 +15,7 @@ import DetailsTask from '@/components/DetailsTask.vue'
 
 const routes = [
     {
-        path: '/SignUp',
+        path: '/',
         name: 'SignUp',
         component: SignUp,
     },

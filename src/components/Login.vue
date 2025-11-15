@@ -141,7 +141,7 @@
       <v-card-text class="text-center">
         <a
           class="text-blue text-decoration-none"
-          href="/SignUp"
+          href="/"
           rel="noopener noreferrer"
           target="_blank"
         >
