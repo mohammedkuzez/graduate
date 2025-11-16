@@ -142,7 +142,7 @@ export default {
         lg="3"
         xl="2"
       >
-        <v-card class="pa-3 bg-blue-grey-lighten-2" elevation="3" rounded="lg">
+        <v-card class="mx-2 pa-3 bg-blue-grey-lighten-2" elevation="3" rounded="lg">
           <h3 class="text-center text-subtitle-1 font-medium mb-4">
             {{ col.title }}
           </h3>
