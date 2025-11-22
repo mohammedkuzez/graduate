@@ -44,6 +44,9 @@ export default {
       this.Snackbar = true;
       this.message = message;
     },
+    CancelAdd() {
+      this.activeDialog = false;
+    },
     async fun() {
       this.loader = true;
       await this.Projectlist();
@@ -96,6 +99,7 @@ export default {
     v-if="activeDialog"
     :update="false"
     @close="handleClose"
+    @closeWithoutUpdate="CancelAdd"
   ></AddAndUpateProject>
   <template
     ><Snackbar v-if="message" v-model="Snackbar" :Message="message"></Snackbar

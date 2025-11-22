@@ -36,6 +36,12 @@ export default {
       console.log("ProjectCard: ", message);
       this.$emit("DeleteMessage", message);
     },
+    CancelUpdate() {
+      this.activeDialogEdit = false;
+    },
+    Canceldelete() {
+      this.activeDialogDelete = false;
+    },
   },
   computed: {
     ...mapState(useDataStore, ["userId"]),
@@ -97,6 +103,7 @@ export default {
     <Delete
       v-model="activeDialogDelete"
       @close="deleteClose"
+      @closeWithoutUpdate="deleteClose"
       :ProjectId="ProjectProps.id"
       :Name="ProjectProps.name"
       POT="Project"
@@ -104,6 +111,7 @@ export default {
     <AddAndUpateProject
       v-model="activeDialogEdit"
       @close="handleClose"
+      @closeWithoutUpdate="CancelUpdate"
       :ProjectId="ProjectProps.id"
       :ProjectName="ProjectProps.name"
       :ProjectDescription="ProjectProps.description"
