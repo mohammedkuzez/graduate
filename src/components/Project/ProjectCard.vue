@@ -112,10 +112,10 @@ export default {
       v-model="activeDialogEdit"
       @close="handleClose"
       @closeWithoutUpdate="CancelUpdate"
-      :ProjectId="ProjectProps.id"
-      :ProjectName="ProjectProps.name"
-      :ProjectDescription="ProjectProps.description"
-      :ProjectDate="ProjectProps.dueDate"
+      :ProjectId="this.ProjectProps.id"
+      :ProjectName="this.ProjectProps.name"
+      :ProjectDescription="this.ProjectProps.description"
+      :ProjectDate="this.ProjectProps.dueDate"
     >
     </AddAndUpateProject>
   </v-card>

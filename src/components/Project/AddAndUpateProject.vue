@@ -28,6 +28,8 @@ export default {
     async save(values) {
       this.loading = true
       this.Project = { ...values, state: this.Project.state }
+      console.log(this.ProjectName,this.ProjectDescription,this.ProjectDate);
+      
       
       if(this.ProjectName){
         console.log(this.ProjectId);
@@ -88,11 +90,17 @@ defineRule('FutureDate', function(value, [today]) {
 <template>
   <v-dialog v-model="visible" max-width="600" persistent>
     <v-card>
-      <Form @submit="save">
+      <Form @submit="save"
+      :initial-values="{
+        name: ProjectName,
+        description: ProjectDescription,
+        dueDate: ProjectDate,
+        state: ProjectManag?.state ?? false
+      }">
       <v-card-title class="text-body-1 text-md-h3">{{ $t('projectManagement.addingProject') }}</v-card-title>
 
       <v-card-text>
-        <Field name="name" :rules="'required|ProjectName'" v-slot="{ field, errors }" :value="ProjectName">
+        <Field name="name" :rules="'required|ProjectName'" v-slot="{ field, errors }">
         <v-text-field
         :hint="$t('hint.PlsEnterProjectName')" 
         class="pb-3"
@@ -102,9 +110,10 @@ defineRule('FutureDate', function(value, [today]) {
         prepend-inner-icon="mdi-account-outline"
         variant="outlined"
         :error="errors.length > 0"
-        :error-messages="errors"/>
+        :error-messages="errors"
+        :focused="!!this.ProjectName"/>
         </Field>
-        <Field name="description" :rules="'required|ProjectDescription'" v-slot="{ field, errors }" :value="ProjectDescription">
+        <Field name="description" :rules="'required|ProjectDescription'" v-slot="{ field, errors }">
         <v-text-field
         :hint="$t('hint.PlsEnterProjectdescription')"
         class="pb-3"
@@ -114,12 +123,13 @@ defineRule('FutureDate', function(value, [today]) {
         prepend-inner-icon="mdi-account-outline"
         variant="outlined"
         :error="errors.length > 0"
-        :error-messages="errors"/>
+        :error-messages="errors"
+        :focused="!!this.ProjectDescription"/>
         </Field>
         <Field name="state" v-slot="{ field }">
           <v-switch color="secondary" v-model="field.value" @update:model-value="field.onChange" :label="field.value ? $t('AddAndUpateProject.active') : $t('AddAndUpateProject.inactive')"></v-switch>
         </Field>
-        <Field name="dueDate" :rules="`required|FutureDate:${this.currentDate}`" v-slot="{ field, errors }" :value="ProjectDate">
+        <Field name="dueDate" :rules="`required|FutureDate:${this.currentDate}`" v-slot="{ field, errors }">
         <v-text-field
         :hint="$t('hint.PlsEnterProjectdate')"
         :label="$t('projectManagement.date')"
@@ -129,7 +139,8 @@ defineRule('FutureDate', function(value, [today]) {
         prepend-inner-icon="mdi-account-outline"
         variant="outlined"
         :error="errors.length > 0"
-        :error-messages="errors"/>
+        :error-messages="errors"
+        :focused="!!this.ProjectDate"/>
         </Field>
       </v-card-text>
 

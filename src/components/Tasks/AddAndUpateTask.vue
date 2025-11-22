@@ -114,7 +114,14 @@ defineRule('NotCrossProjectDate', function(value, [ProjectDue]) {
 <template>
   <v-dialog v-model="visible" max-width="600" persistent>
     <v-card>
-      <Form @submit="save">
+      <Form @submit="save"
+      :initial-values="{
+        name: TaskName,
+        description: TaskDescription,
+        state: selectedTask,
+        startDate: TaskStartDate,
+        endDate: TaskEndDate,
+      }">
       <v-card-title>{{ $t('ProjectTasks.addingTask') }}</v-card-title>
 
       <v-card-text>
@@ -128,7 +135,8 @@ defineRule('NotCrossProjectDate', function(value, [ProjectDue]) {
         prepend-inner-icon="mdi-account-outline"
         variant="outlined"
         :error="errors.length > 0"
-        :error-messages="errors"/>
+        :error-messages="errors"
+        :focused="!!this.TaskName"/>
         </Field>
         <Field name="description" :rules="'required|TaskDescription'" v-slot="{ field, errors }" :value="TaskDescription">
         <v-text-field
@@ -140,13 +148,15 @@ defineRule('NotCrossProjectDate', function(value, [ProjectDue]) {
         prepend-inner-icon="mdi-account-outline"
         variant="outlined"
         :error="errors.length > 0"
-        :error-messages="errors"/>
+        :error-messages="errors"
+        :focused="!!this.TaskDescription"/>
         </Field>
         <Field name="state">
         <v-select
             v-model="selectedTask" 
             :label="$t('ProjectTasks.TaskState')"
             :items="['To Do', 'In Progress', 'In Review', 'Done']"
+            :focused="!!this.selectedTask"
         ></v-select>
         </Field>
         <Field 
@@ -163,7 +173,8 @@ defineRule('NotCrossProjectDate', function(value, [ProjectDue]) {
         prepend-inner-icon="mdi-account-outline"
         variant="outlined"
         :error="errors.length > 0"
-        :error-messages="errors"/>
+        :error-messages="errors"
+        :focused="!!this.TaskStartDate"/>
         </Field>
         <Field 
         name="endDate" 
@@ -179,7 +190,8 @@ defineRule('NotCrossProjectDate', function(value, [ProjectDue]) {
         prepend-inner-icon="mdi-account-outline"
         variant="outlined"
         :error="errors.length > 0"
-        :error-messages="errors"/>
+        :error-messages="errors"
+        :focused="!!this.TaskEndDate"/>
         </Field>
       </v-card-text>
 
