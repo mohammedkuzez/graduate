@@ -89,7 +89,7 @@ defineRule('FutureDate', function(value, [today]) {
   <v-dialog v-model="visible" max-width="600" persistent>
     <v-card>
       <Form @submit="save">
-      <v-card-title>{{ $t('projectManagement.addingProject') }}</v-card-title>
+      <v-card-title class="text-body-1 text-md-h3">{{ $t('projectManagement.addingProject') }}</v-card-title>
 
       <v-card-text>
         <Field name="name" :rules="'required|ProjectName'" v-slot="{ field, errors }" :value="ProjectName">

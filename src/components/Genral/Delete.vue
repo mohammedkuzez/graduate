@@ -61,7 +61,7 @@ export default {
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" text @click="$emit('close')">Cancel</v-btn>
+        <v-btn color="primary" text @click="$emit('closeWithoutUpdate')">Cancel</v-btn>
         <v-btn @click="DeleteFun" color="red" text :loading="loading" variant="text">Delete</v-btn>
       </v-card-actions>
     </v-card>

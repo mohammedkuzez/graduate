@@ -27,7 +27,7 @@ export default {
     GoToTaskDeitals() {
       this.activeDialog = true;
       this.$router.push(
-        `/Home/${this.TaskProps.project.id}/${this.TaskProps.id}`
+        `/MTR/${this.TaskProps.project.id}/${this.TaskProps.id}`
       );
     },
     handleClose(message) {
@@ -39,6 +39,12 @@ export default {
       console.log("ProjectCard: ", message);
       this.$emit("DeleteMessage", message);
     },
+    CancelClose() {
+      this.activeDialogDelete = false;
+    },
+    CancelUpdate() {
+      this.activeDialogEdit = false;
+    }
   },
   computed: {
     ...mapState(useDataStore, ["userId"]),
@@ -106,6 +112,7 @@ export default {
     <Delete
       v-model="activeDialogDelete"
       @close="deleteClose"
+      @closeWithoutUpdate="CancelClose"
       :TaskId="TaskProps.id"
       :ProjectId="ProjectID"
       :Name="TaskProps.name"
@@ -114,6 +121,7 @@ export default {
     <AddAndUpateTask
       v-model="activeDialogEdit"
       @close="handleClose"
+      @closeWithoutUpdate="CancelUpdate"
       :TaskId="this.TaskProps.id"
       :ProjectID="ProjectID"
       :ProjectDueDate="ProjectDueDate"

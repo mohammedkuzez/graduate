@@ -58,8 +58,8 @@ export default {
 
 <template>
   <div class="d-flex justify-space-between align-center mb-4">
-    <h1>{{ $t("projectManagement.yourProjects") }}</h1>
-    <v-btn @click="activeDialog = true" class="bg-secondary">{{
+    <h1 class="text-body-1 text-md-h3">{{ $t("projectManagement.yourProjects") }}</h1>
+    <v-btn @click="activeDialog = true" class="bg-secondary text-body-2 text-md-subtitle-1">{{
       $t("projectManagement.addProject")
     }}</v-btn>
   </div>
