@@ -128,7 +128,7 @@ export default {
 
 <template>
   <div class="d-flex justify-space-between align-center mb-4">
-    <h1>{{ ProjectName + " " + $t("ProjectTasks.Project") }}</h1>
+    <h1 class="text-subtitle-1 text-md-h3">{{ ProjectName + " " + $t("ProjectTasks.Project") }}</h1>
     <v-btn @click="activeAddingTask = true" class="bg-secondary text-body-2 text-md-subtitle-1">{{
       $t("ProjectTasks.NewTask")
     }}</v-btn>
