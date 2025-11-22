@@ -21,6 +21,9 @@ export default {
     DarkstatusIcon,
   }),
   computed: {
+      isMobile() {
+    return this.$vuetify.display.smAndDown
+  },
     nextTheme() {
       return this.theme.name === 'light' ? 'dark' : 'light'
     },
@@ -57,9 +60,9 @@ export default {
         class="position-fixed top-0 left-0 h-screen"
         permanent
         :floating="false"
-        @mouseenter="hovered = true"
-        @mouseleave="hovered = false"
-        :width="this.hovered ? 256 : 72"
+        @mouseenter="!isMobile && (hovered = true)"
+        @mouseleave="!isMobile && (hovered = false)"
+        :width="isMobile ? 72 : (hovered ? 256 : 72)"
         >
         <v-list nav>
           <v-list-item>
