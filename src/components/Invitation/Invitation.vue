@@ -75,7 +75,7 @@ export default {
   <v-container fluid>
     <v-row>
       <template v-if="loader">
-        <v-col v-for="n in 6" :key="n" cols="12" sm="6" md="4">
+        <v-col v-for="n in 9" :key="n" cols="12" sm="6" md="4">
           <v-skeleton-loader type="card" elevation="5" color="blue-grey-lighten-1" />
         </v-col>
       </template>

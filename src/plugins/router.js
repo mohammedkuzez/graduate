@@ -10,6 +10,7 @@ import Invitation from "@/components/Invitation/Invitation.vue";
 import NotFoundView from "@/components/Genral/NotFoundView.vue";
 import ProjectTasks from "@/components/Tasks/ProjectTasks.vue";
 import DetailsTask from "@/components/Tasks/DetailsTask.vue";
+import MakeItReal from "@/components/Genral/MakeItReal.vue";
 
 const routes = [
   {
@@ -24,7 +25,13 @@ const routes = [
   },
   {
     path: "/Home",
+    name: "Home",
     component: Home,
+  },
+  {
+    path: "/MTR",
+    name: "MTR",
+    component: MakeItReal,
     children: [
       {
         path: "Project_Management",

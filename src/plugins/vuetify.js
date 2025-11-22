@@ -35,11 +35,11 @@ export default createVuetify({
       light: {
         dark: false,
         colors: {
-          background: '#fafafa',
-          surface: '#fff',
-          primary: '#6200EE',
-          'primary-darken-1': '#3700B3',
-          secondary: '#03DAC6',
+          background: '#ade8f4',
+          surface: '#ade8f4',
+          primary: '#023e8a',
+          'primary-darken-1': '#48cae4',
+          secondary: '#00b4d8',
           'secondary-darken-1': '#018786',
           error: '#B00020',
           info: '#2196F3',
@@ -50,11 +50,11 @@ export default createVuetify({
       dark: {
         dark: true,
         colors: {
-          background: '#121212',
-          surface: '#121212',
-          primary: '#BB86FC',
-          'primary-darken-1': '#3700B3',
-          secondary: '#03DAC6',
+          background: '#023e8a',
+          surface: '#023e8a',
+          primary: '#90e0ef',
+          'primary-darken-1': '#48cae4',
+          secondary: '#00b4d8',
           'secondary-darken-1': '#03DAC6',
           error: '#CF6679',
           info: '#2196F3',

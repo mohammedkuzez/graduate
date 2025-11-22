@@ -25,7 +25,7 @@ export default {
     },
     GoToTasks() {
       localStorage.setItem("ProjectId", this.ProjectProps.id);
-      this.$router.push(`/Home/${this.ProjectProps.id}`);
+      this.$router.push(`/MTR/${this.ProjectProps.id}`);
     },
     handleClose(message) {
       this.activeDialogEdit = false;
