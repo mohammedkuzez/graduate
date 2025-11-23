@@ -58,11 +58,8 @@ export default {
 <template>
   <v-app id="inspire">
     <!-- APP BAR -->
-    <v-card>
-      <v-layout>
-
-    <!-- NAVIGATION DRAWER -->
-
+    <v-card class="d-flex fill-height">
+      <v-layout class="fill-height">
         <v-navigation-drawer
           permanent
           :location="drawerLocation"
