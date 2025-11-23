@@ -18,6 +18,7 @@ export default {
     forgotPassword: "Forgot password",
   },
   home: {
+    home: "home",
     mainTitle: "MTR",
     projectManagement: "Project Management",
     taskManagement: "Task Management",

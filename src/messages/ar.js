@@ -18,6 +18,7 @@ export default {
     forgotPassword: "هل نسيت كبمة المرور",
   },
   home: {
+    home: "الصفحة الرئيسية",
     mainTitle: "لتصح",
     projectManagement: "إدارة المشاريع",
     taskManagement: "إدارة المهام",

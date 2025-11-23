@@ -6,6 +6,8 @@ import invitationIcon from '../../assets/img/invitation.png'
 import DarkinvitationIcon from '../../assets/img/Dark-invitation.png'
 import statusIcon from '../../assets/img/status.png'
 import DarkstatusIcon from '../../assets/img/Dark-status.png'
+import home from '../../assets/img/home.png'
+import Darkhome from '../../assets/img/Dark-home.png'
 
 export default {
   data: () => ({
@@ -19,6 +21,8 @@ export default {
     DarkinvitationIcon,
     statusIcon,
     DarkstatusIcon,
+    home,
+    Darkhome,
   }),
   computed: {
       isMobile() {
@@ -75,9 +79,15 @@ export default {
           </v-list-item>
         
         <v-divider></v-divider>
+          <v-list-item :to="'/Home'" color="primary">
+            <template v-slot:prepend>
+              <v-img :src="getimage ? home : DarkprojectManagementIcon" width="50" />
+            </template>
+            <v-list-item-title class="ms-5" v-if="hovered">{{ $t('home.home') }}</v-list-item-title>
+          </v-list-item>
           <v-list-item :to="'/MTR/Project_Management'" color="primary">
             <template v-slot:prepend>
-              <v-img :src="getimage ? projectManagementIcon : DarkprojectManagementIcon" width="50" />
+              <v-img :src="getimage ? projectManagementIcon : Darkhome" width="50" />
             </template>
             <v-list-item-title class="ms-5" v-if="hovered">{{ $t('home.projectManagement') }}</v-list-item-title>
           </v-list-item>
