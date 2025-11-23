@@ -30,6 +30,9 @@ export default {
     nextLang() {
       return this.$i18n.locale === 'en' ? 'ar' : 'en'
     },
+    drawerLocation() {
+      return this.$i18n.locale === 'ar' ? 'right' : 'left'
+    }
   },
   methods: {
     changeTheme() {
@@ -57,12 +60,11 @@ export default {
     <!-- NAVIGATION DRAWER -->
 
         <v-navigation-drawer
-        class="position-fixed top-0 left-0 h-screen"
-        permanent
-        :floating="false"
-        @mouseenter="!isMobile && (hovered = true)"
-        @mouseleave="!isMobile && (hovered = false)"
-        :width="isMobile ? 72 : (hovered ? 256 : 72)"
+          permanent
+          :location="drawerLocation"
+          :width="isMobile ? 72 : (hovered ? 256 : 72)"
+          @mouseenter="!isMobile && (hovered = true)"
+          @mouseleave="!isMobile && (hovered = false)"
         >
         <v-list nav>
           <v-list-item>

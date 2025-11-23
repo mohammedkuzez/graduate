@@ -37,7 +37,7 @@
             const success = await this.login(this.getProject.Account, this.getProject.Password)
 
             if (success) {
-              this.$router.push("/MTR")
+              this.$router.push("/Home")
             } else {
               alert("Login failed")
             }

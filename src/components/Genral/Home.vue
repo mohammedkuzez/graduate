@@ -64,37 +64,13 @@ export default {
                 </v-list>
             </v-menu>
         </v-app-bar>
-        <v-navigation-drawer v-model="drawer" theme="dark" class="" app>
+        <v-img src="../../assets/img/Home-Project-Management.jpg">
+            <v-btn class="bg-secondary">
+                get Start
+            </v-btn>
+            <v-btn>
 
-            <div class="d-flex align-center gap-4 py-4 px-6">
-                <v-img src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-light.png" contain width="32"
-                    height="32"></v-img>
-
-                <div>
-                    <div class="text-h6 mt-2">{{ $t('home.mainTitle') }}</div>
-                    <div class="text-subtitle-2 font-weight-light">{{ $t('home.projectManagement') }}</div>
-                </div>
-
-            </div>
-
-            <v-divider></v-divider>
-
-            <v-list nav>
-                <v-list-item v-for="(item, i) in items" :key="i" :to="item.link" color="primary">
-                    <template v-slot:675>
-                        <v-icon :icon="item.icon"></v-icon>
-                    </template>
-
-                    <v-list-item-title v-text="item.text"></v-list-item-title>
-                </v-list-item>
-            </v-list>
-        </v-navigation-drawer>
-
-
-        <v-main>
-            <v-container>
-                <RouterView />
-            </v-container>
-        </v-main>
+            </v-btn>
+        </v-img>
     </v-app>
 </template>
