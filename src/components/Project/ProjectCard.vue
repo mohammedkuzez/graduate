@@ -68,7 +68,7 @@ export default {
 <template>
   <v-card
     @click="GoToTasks"
-    class="bg-white p-5 rounded-md shadow hover:shadow-lg transition pa-4"
+    class="bg-info p-5 rounded-md shadow hover:shadow-lg transition pa-4"
   >
     <h3 class="text-xl font-semibold py-3 text-truncate">
       {{ ProjectProps.name }}

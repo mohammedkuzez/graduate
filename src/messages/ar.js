@@ -80,6 +80,9 @@ export default {
     totalTasks: "عدد المهام الكلي",
     YourStatus: "إحصائياتك",
   },
+  validate: {
+    takenedEmail: "هذا الإيميل محجوز",
+  },
   save: "حفظ",
   cancel: "إلغاء",
   send: "إرسال",

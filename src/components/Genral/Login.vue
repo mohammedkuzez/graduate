@@ -20,12 +20,7 @@
             },
           }
         },
-        mounted() {
-          defineRule('uniqueEmail', (value) => {
-            if (!value) return true
-            const exists = this.users.find(user => user.email.toLowerCase() === value.toLowerCase())
-            return exists ? 'This email is already taken' : true
-          })
+      mounted() {
         },
         methods: {
           ...mapActions(useAuthStore, ['login']),

@@ -37,8 +37,7 @@ export const  useAuthStore = defineStore('auth', {
                 })
                 this.register = await res.json()
                 console.log('register: ', this.register);
-                if(this.register.access_token) return true 
-                else return false
+                return this.register
             } catch (error) {
                 console.log("Login error:", error)
                 return false

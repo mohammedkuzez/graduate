@@ -1,4 +1,5 @@
 import SignUp from "@/components/Genral/SignUp.vue";
+import { validate } from "vee-validate";
 import { en } from "vuetify/locale";
 
 export default {
@@ -77,6 +78,9 @@ export default {
     totalProjects: "Total Projects",
     totalTasks: "Total Tasks",
     YourStatus: "Your Status",
+  },
+  validate: {
+    takenedEmail: "This email is already taken",
   },
   save: "Save",
   cancel: "Cancel",

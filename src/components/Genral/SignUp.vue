@@ -21,6 +21,7 @@ export default {
         Password: '',
         ConfirmPassword: '',
       },
+      emailtaken: false,
       role: 'MEMBER',
     }
   },
@@ -40,11 +41,9 @@ export default {
       await this.getSignUp()
     },
     async getSignUp() {
-      let success = await this.SignUp(this.getProject.FirstName,this.getProject.LastName,this.getProject.Account,this.getProject.Password,this.role)
-      if (success) {
+      this.emailtaken = await this.SignUp(this.getProject.FirstName,this.getProject.LastName,this.getProject.Account,this.getProject.Password,this.role)
+      if (this.emailtaken.access_token) {
         this.$router.push("/Login")
-      } else {
-        alert("Signup failed")
       }
     }
   },
@@ -77,6 +76,12 @@ defineRule('confirmed', (value, [target]) => {
     return true;
   }
   return 'Password must match';
+});
+defineRule('uniqueEmail', (value, [message]) => {
+  if (message === "User with this email already exists") {
+    return 'This email is already taken';
+  }
+  return true;
 });
 </script>
 
@@ -125,7 +130,7 @@ defineRule('confirmed', (value, [target]) => {
       ></v-text-field>
         </Field>
 
-        <Field class="mt-2" name="Account" :rules="'required|email'" v-slot="{ field, errors }">
+        <Field class="mt-2" name="Account" :rules="`required|email|uniqueEmail:${this.emailtaken.message}`" v-slot="{ field, errors }">
       <v-text-field
       class="mt-2"
         :label="$t('signUp.emailAddress')"
