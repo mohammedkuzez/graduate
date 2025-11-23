@@ -45,8 +45,7 @@ export default {
       this.loader = true;
       await this.GetTasksByProjectId(this.Projectid);
       await this.GetProjectById(this.Projectid);
-      console.log("GetTasksProject2:", this.GetTasksProject);
-
+      this.board = { 1: [], 2: [], 3: [], 4: [] };
       if (this.GetTasksProject && this.GetTasksProject.length > 0) {
         this.ProjectName =
           this.GetTasksProject[0].project?.name || "Unnamed Project";
@@ -63,12 +62,8 @@ export default {
         this.board[4] = this.GetTasksProject.filter(
           (Task) => Task.status.name === "Done"
         );
-        console.log("board[1]:", this.board[1]);
-        console.log("board[2]:", this.board[2]);
-        console.log("board[3]:", this.board[3]);
-        console.log("board[4]:", this.board[4]);
-        this.loader = false;
       }
+      this.loader = false;
     },
 
     handleClose(message) {

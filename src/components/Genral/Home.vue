@@ -69,7 +69,7 @@ export default {
 
     <v-img
       height="500"
-      src="@/assets/img/Home-Project-Management2.jpg"
+      src="@/assets/img/Home-Project-Management.jpg"
       cover
     >
       <!-- Option 1: Use a transparent color overlay instead of just brightness filter -->
